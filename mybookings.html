@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Bookings – Sri Ganesh Bike Rentals</title>
+  <meta name="description" content="View your bike rental bookings by entering your phone number. Sri Ganesh Bike Rentals, Hyderabad." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .page-hero {
+      min-height: 220px; display: flex; align-items: flex-end;
+      padding: 100px 5% 40px;
+      background: linear-gradient(135deg, var(--dark2) 0%, var(--dark3) 100%);
+      border-bottom: 1px solid var(--border); position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; right: -60px; top: -60px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    }
+    .page-hero-content h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(28px,5vw,46px); font-weight: 700; }
+    .page-hero-content h1 span { color: var(--orange); }
+    .page-hero-content p { color: var(--text-muted); font-size: 15px; margin-top: 8px; }
+
+    .mb-section { max-width: 900px; margin: 0 auto; padding: 60px 5% 80px; }
+
+    .lookup-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; margin-bottom: 40px;
+    }
+    .lookup-card h3 {
+      font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .lookup-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+    .lookup-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+    .lookup-row .form-group { flex: 1; min-width: 200px; margin-bottom: 0; }
+    .lookup-row label { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 6px; }
+    .lookup-row input {
+      width: 100%; background: var(--dark4); border: 1px solid var(--border);
+      border-radius: 8px; padding: 11px 14px; color: var(--text); font-size: 15px;
+      transition: border-color 0.2s ease;
+    }
+    .lookup-row input:focus { border-color: var(--orange); outline: none; }
+    .btn-lookup {
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: #0a0e18; padding: 11px 28px; border-radius: 8px;
+      font-size: 15px; font-weight: 700; border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: opacity 0.2s ease; white-space: nowrap;
+    }
+    .btn-lookup:hover { opacity: 0.88; }
+
+    .results-wrap { display: none; }
+    .results-wrap.show { display: block; }
+
+    .results-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
+    }
+    .results-header h4 { font-size: 16px; font-weight: 600; }
+    .results-count { font-size: 13px; color: var(--text-muted); }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead th {
+      text-align: left; padding: 10px 14px;
+      font-size: 12px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border); white-space: nowrap;
+    }
+    tbody td {
+      padding: 13px 14px; border-bottom: 1px solid rgba(42,42,42,0.5);
+      vertical-align: middle;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .status-badge {
+      display: inline-block; padding: 3px 10px;
+      border-radius: 20px; font-size: 11px; font-weight: 600;
+    }
+    .status-confirmed  { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .status-pending    { background: rgba(234,179,8,0.15);  color: #facc15; }
+    .status-cancelled  { background: rgba(239,68,68,0.15);  color: #f87171; }
+
+    .empty-state {
+      text-align: center; padding: 60px 20px; color: var(--text-muted);
+    }
+    .empty-state i { font-size: 48px; color: var(--border); display: block; margin-bottom: 16px; }
+    .empty-state p { font-size: 15px; }
+    .empty-state a { color: var(--orange); text-decoration: underline; }
+
+    .error-msg {
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 8px; padding: 12px 16px; color: #f87171;
+      font-size: 14px; margin-top: 12px; display: none;
+    }
+    .error-msg.show { display: block; }
+
+    @media (max-width: 600px) {
+      .lookup-row { flex-direction: column; }
+      .btn-lookup { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo.webp" alt="Sri Ganesh Bike Rentals Logo" />
+    <span class="logo-text"><span>S</span>ri <span>G</span>anesh</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="bikes.html">Bikes</a></li>
+    <li><a href="index.html#why-us">Why Us</a></li>
+    <li><a href="index.html#location">Location</a></li>
+    <li><a href="mybookings.html" style="color:var(--orange)">My Bookings</a></li>
+    <li><a href="terms.html">Terms</a></li>
+  </ul>
+  <a href="bikes.html" class="btn-book">Book Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <nav aria-label="breadcrumb" style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted);margin-bottom:12px;">
+      <a href="index.html" style="color:var(--orange)">Home</a>
+      <i class="fas fa-chevron-right" style="font-size:10px"></i>
+      <span>My Bookings</span>
+    </nav>
+    <h1>My <span>Bookings</span></h1>
+    <p>Enter your phone number to view all your bookings.</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="mb-section">
+
+  <div class="lookup-card">
+    <h3><i class="fas fa-search" style="color:var(--orange);margin-right:8px"></i>Find Your Bookings</h3>
+    <p>Enter the phone number you used while booking to see your rental history.</p>
+    <div class="lookup-row">
+      <div class="form-group">
+        <label for="phoneInput">Phone Number</label>
+        <input type="tel" id="phoneInput" placeholder="e.g. 9100438272" maxlength="15" />
+      </div>
+      <button class="btn-lookup" id="lookupBtn">
+        <i class="fas fa-search"></i> View Bookings
+      </button>
+    </div>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-wrap" id="resultsWrap">
+    <div class="results-header">
+      <h4><i class="fas fa-calendar-check" style="color:var(--orange);margin-right:8px"></i>Your Bookings</h4>
+      <span class="results-count" id="resultsCount"></span>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+      <div class="table-wrap">
+        <table id="bookingsTable">
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Bike</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Pickup Time</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsTbody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state hidden" id="noBookings">
+        <i class="fas fa-calendar-xmark"></i>
+        <p>No bookings found for this number.<br><a href="bikes.html">Book a bike now</a></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.webp" alt="Logo" />
+        <span class="logo-text"><span>S</span>ri <span>G</span>anesh</span>
+      </a>
+      <p>Hyderabad's most trusted bike rental service. Affordable, reliable, and always ready to ride.</p>
+      <div class="social-links">
+        <a href="#" class="social-link fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link tw" aria-label="X Twitter"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://wa.me/919100438272" target="_blank" rel="noopener noreferrer" class="social-link wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-link yt" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="bikes.html">Our Bikes</a></li>
+        <li><a href="mybookings.html">My Bookings</a></li>
+        <li><a href="index.html#why-us">Why Us</a></li>
+        <li><a href="index.html#location">Location</a></li>
+        <li><a href="terms.html">Terms &amp; Conditions</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919100438272">+91 91004 38272</a></li>
+        <li><a href="mailto:hello@sriganeshbikerentals.in">hello@sriganeshbikerentals.in</a></li>
+        <li><a href="index.html#location">ShivBagh, Balkampet, Hyderabad</a></li>
+        <li>Mon – Sun: 7:00 AM – 10:00 PM</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 <span>Sri Ganesh Bike Rentals</span>. All rights reserved.</p>
+    <p>Developed by <span>Venky</span></p>
+  </div>
+</footer>
+
+<div class="fab-wrap">
+  <a href="tel:+919100438272" class="fab fab-call" aria-label="Call us"><i class="fas fa-phone-volume"></i></a>
+  <a href="https://wa.me/919100438272?text=Hi%2C%20I%20want%20to%20rent%20a%20bike%20from%20Sri%20Ganesh%20Bike%20Rentals" target="_blank" rel="noopener noreferrer" class="fab fab-wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<script>
+'use strict';
+const API = '/api';
+
+// Hamburger
+const hamburger = document.getElementById('hamburger');
+const navLinks  = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  navLinks.classList.toggle('open');
+});
+
+// Navbar scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').style.background =
+    window.scrollY > 50 ? 'rgba(13,18,32,0.99)' : 'rgba(13,18,32,0.95)';
+});
+
+function fmtDate(str) {
+  if (!str) return '–';
+  const d = new Date(str);
+  return isNaN(d) ? str : d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function statusBadge(s) {
+  const map = { confirmed: 'status-confirmed', pending: 'status-pending', cancelled: 'status-cancelled' };
+  const label = s ? s.charAt(0).toUpperCase() + s.slice(1) : 'Pending';
+  return `<span class="status-badge ${map[s] || 'status-pending'}">${label}</span>`;
+}
+
+async function lookupBookings() {
+  const phone   = document.getElementById('phoneInput').value.trim();
+  const errorEl = document.getElementById('errorMsg');
+  errorEl.classList.remove('show');
+
+  if (!phone || phone.length < 10) {
+    errorEl.textContent = 'Please enter a valid phone number (at least 10 digits).';
+    errorEl.classList.add('show');
+    return;
+  }
+
+  const btn = document.getElementById('lookupBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching…';
+
+  try {
+    const res = await fetch(`${API}/bookings/phone/${encodeURIComponent(phone)}`);
+    if (!res.ok) throw new Error('Server error');
+    const bookings = await res.json();
+
+    const wrap   = document.getElementById('resultsWrap');
+    const tbody  = document.getElementById('bookingsTbody');
+    const noBook = document.getElementById('noBookings');
+    const count  = document.getElementById('resultsCount');
+
+    wrap.classList.add('show');
+    count.textContent = `${bookings.length} booking${bookings.length !== 1 ? 's' : ''} found`;
+
+    if (!bookings.length) {
+      tbody.innerHTML = '';
+      noBook.classList.remove('hidden');
+      return;
+    }
+    noBook.classList.add('hidden');
+
+    tbody.innerHTML = bookings.map(b => `
+      <tr>
+        <td><code style="color:var(--orange);font-size:12px">${b.bookingId}</code></td>
+        <td style="font-weight:600">${b.bike || '–'}</td>
+        <td>${fmtDate(b.from)}</td>
+        <td>${fmtDate(b.to)}</td>
+        <td>${b.pickupTime || '–'}</td>
+        <td style="color:#4ade80;font-weight:600">&#8377;${(b.amount || 0).toLocaleString('en-IN')}</td>
+        <td>${statusBadge(b.status)}</td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    errorEl.textContent = 'Could not fetch bookings. Make sure the server is running.';
+    errorEl.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-search"></i> View Bookings';
+  }
+}
+
+document.getElementById('lookupBtn').addEventListener('click', lookupBookings);
+document.getElementById('phoneInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') lookupBookings();
+});
+</script>
+</body>
+</html>

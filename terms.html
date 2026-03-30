@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms &amp; Conditions – Sri Ganesh Bike Rentals</title>
+  <meta name="description" content="Rental terms, required documents, helmet policy, fuel policy, cancellation rules for Sri Ganesh Bike Rentals, Hyderabad." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .terms-hero {
+      min-height: 220px; display: flex; align-items: flex-end;
+      padding: 100px 5% 40px;
+      background: linear-gradient(135deg, var(--dark2) 0%, var(--dark3) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .terms-hero h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(28px,5vw,46px); font-weight: 700; }
+    .terms-hero h1 span { color: var(--orange); }
+    .terms-hero p { color: var(--text-muted); font-size: 14px; margin-top: 8px; }
+    .terms-body { max-width: 820px; margin: 0 auto; padding: 60px 5%; }
+    .terms-section { margin-bottom: 40px; }
+    .terms-section h2 {
+      font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700;
+      color: var(--orange); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .terms-section h2 i { font-size: 18px; }
+    .terms-section p, .terms-section li { font-size: 15px; color: var(--text-muted); line-height: 1.8; margin-bottom: 8px; }
+    .terms-section ul { padding-left: 20px; }
+    .terms-section ul li::marker { color: var(--orange); }
+    .highlight-box {
+      background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 12px; padding: 20px 24px; margin-bottom: 16px;
+    }
+    .highlight-box strong { color: var(--text); }
+    .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 14px; }
+    .doc-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .doc-card i { font-size: 22px; color: var(--orange); flex-shrink: 0; }
+    .doc-card span { font-size: 14px; font-weight: 500; }
+    .terms-divider { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);
+      color: var(--orange); padding: 10px 20px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; margin-bottom: 32px; transition: background 0.2s ease;
+    }
+    .back-btn:hover { background: rgba(201,168,76,0.2); }
+    .cancel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 12px; margin-top: 14px; }
+    .cancel-card {
+      border-radius: 10px; padding: 16px 18px;
+      border: 1px solid var(--border);
+    }
+    .cancel-card.green  { background: rgba(74,222,128,0.07); border-color: rgba(74,222,128,0.25); }
+    .cancel-card.yellow { background: rgba(250,204,21,0.07);  border-color: rgba(250,204,21,0.25); }
+    .cancel-card.orange { background: rgba(251,146,60,0.07);  border-color: rgba(251,146,60,0.25); }
+    .cancel-card.red    { background: rgba(248,113,113,0.07); border-color: rgba(248,113,113,0.25); }
+    .cancel-card .cc-time { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .cancel-card.green  .cc-time { color: #4ade80; }
+    .cancel-card.yellow .cc-time { color: #facc15; }
+    .cancel-card.orange .cc-time { color: #fb923c; }
+    .cancel-card.red    .cc-time { color: #f87171; }
+    .cancel-card .cc-desc { font-size: 13px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo.webp" alt="Sri Ganesh Bike Rentals Logo" />
+    <span class="logo-text"><span>S</span>ri <span>G</span>anesh</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="bikes.html">Bikes</a></li>
+    <li><a href="index.html#why-us">Why Us</a></li>
+    <li><a href="index.html#location">Location</a></li>
+    <li><a href="mybookings.html">My Bookings</a></li>
+    <li><a href="terms.html" style="color:var(--orange)">Terms</a></li>
+  </ul>
+  <a href="bikes.html" class="btn-book">Book Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<div class="terms-hero">
+  <div>
+    <nav aria-label="breadcrumb" style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted);margin-bottom:12px;">
+      <a href="index.html" style="color:var(--orange)">Home</a>
+      <i class="fas fa-chevron-right" style="font-size:10px"></i>
+      <span>Terms &amp; Conditions</span>
+    </nav>
+    <h1>Rental <span>Terms &amp; Conditions</span></h1>
+    <p>Please read carefully before booking. Last updated: June 2025.</p>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="terms-body">
+
+  <a href="bikes.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Bikes</a>
+
+  <!-- DOCUMENTS -->
+  <div class="terms-section">
+    <h2><i class="fas fa-id-card"></i> Required Documents at Pickup</h2>
+    <p>The following documents are <strong style="color:var(--text)">mandatory</strong> at the time of pickup. Rental will not proceed without valid documents.</p>
+    <div class="doc-grid">
+      <div class="doc-card">
+        <i class="fas fa-car"></i>
+        <span>Original Driving License with MCWG endorsement</span>
+      </div>
+      <div class="doc-card">
+        <i class="fas fa-id-badge"></i>
+        <span>Aadhaar Card or any Government Photo ID</span>
+      </div>
+    </div>
+    <p style="margin-top:14px;">Expired licenses or photocopies are <strong style="color:#f87171">not accepted</strong>. Rider must be <strong style="color:var(--text)">18 years or older</strong>.</p>
+  </div>
+
+  <hr class="terms-divider" />
+
+  <!-- HELMET -->
+  <div class="terms-section">
+    <h2><i class="fas fa-hard-hat"></i> Helmet Policy</h2>
+    <div class="highlight-box">
+      <strong>1 ISI-certified helmet is provided free</strong> with every rental. Wearing a helmet is <strong>mandatory</strong> as per Indian traffic law.
+    </div>
+    <ul>
+      <li>Additional helmets available on request (subject to availability).</li>
+      <li>Sri Ganesh Bike Rentals is not liable for any accidents caused by not wearing a helmet.</li>
+    </ul>
+  </div>
+
+  <hr class="terms-divider" />
+
+  <!-- FUEL -->
+  <div class="terms-section">
+    <h2><i class="fas fa-gas-pump"></i> Fuel Policy</h2>
+    <div class="highlight-box">
+      Bikes are delivered with a <strong>full fuel tank</strong>. Return the bike with a full tank or pay the difference.
+    </div>
+    <ul>
+      <li>Fuel costs during the rental period are the renter's responsibility.</li>
+      <li>If returned with less fuel, the cost difference will be charged at actuals.</li>
+    </ul>
+  </div>
+
+  <hr class="terms-divider" />
+
+  <!-- USAGE RULES -->
+  <div class="terms-section">
+    <h2><i class="fas fa-ban"></i> Usage Rules</h2>
+    <ul>
+      <li><strong style="color:#f87171">No drunk driving.</strong> Riding under the influence of alcohol or drugs is strictly prohibited.</li>
+      <li>Rider must be <strong style="color:var(--text)">18 years or older</strong> with a valid MCWG driving license.</li>
+      <li>Sub-renting or lending the bike to a third party is strictly prohibited.</li>
+      <li>Off-road riding, racing, or stunt riding is not permitted.</li>
+      <li>The renter is responsible for all traffic fines and challans during the rental period.</li>
+      <li>In case of an accident, immediately inform us at <strong style="color:var(--orange)">+91 91004 38272</strong> and the nearest police station.</li>
+    </ul>
+  </div>
+
+  <hr class="terms-divider" />
+
+  <!-- LATE RETURN -->
+  <div class="terms-section">
+    <h2><i class="fas fa-clock"></i> Late Return Policy</h2>
+    <div class="highlight-box">
+      A grace period of <strong>2 hours</strong> is allowed. Beyond that, a late fee of <strong>&#8377;100 per hour</strong> will be charged.
+    </div>
+    <ul>
+      <li>Please inform us in advance if you need an extension — we'll try our best to accommodate.</li>
+      <li>Extensions are subject to bike availability.</li>
+    </ul>
+  </div>
+
+  <hr class="terms-divider" />
+
+  <!-- CANCELLATION -->
+  <div class="terms-section">
+    <h2><i class="fas fa-calendar-xmark"></i> Cancellation Policy</h2>
+    <div class="cancel-grid">
+      <div class="cancel-card green">
+        <div class="cc-time">24+ hours before pickup</div>
+        <div class="cc-desc">Full refund</div>
+      </div>
+      <div class="cancel-card yellow">
+        <div class="cc-time">6 – 24 hours before pickup</div>
+        <div class="cc-desc">50% of rental amount charged</div>
+      </div>
+      <div class="cancel-card red">
+        <div class="cc-time">Less than 6 hours / No-show</div>
+        <div class="cc-desc">No refund</div>
+      </div>
+    </div>
+    <p style="margin-top:14px;">Cancellations must be communicated via WhatsApp or call to <strong style="color:var(--orange)">+91 91004 38272</strong>.</p>
+  </div>
+
+  <hr class="terms-divider" />
+
+  <!-- DAMAGE -->
+  <div class="terms-section">
+    <h2><i class="fas fa-wrench"></i> Damage &amp; Liability</h2>
+    <ul>
+      <li>The customer is fully responsible for any damage or theft during the rental period.</li>
+      <li>Minor scratches: &#8377;500 – &#8377;1,000</li>
+      <li>Dents or panel damage: &#8377;1,500 – &#8377;5,000 (based on repair estimate)</li>
+      <li>Engine damage: Actual repair cost</li>
+      <li>Total loss / theft: Full market value of the bike</li>
+      <li>Missing accessories (mirrors, keys, etc.): &#8377;200 – &#8377;800 per item</li>
+    </ul>
+  </div>
+
+  <hr class="terms-divider" />
+
+  <!-- GENERAL -->
+  <div class="terms-section">
+    <h2><i class="fas fa-circle-info"></i> General Terms</h2>
+    <ul>
+      <li>Sri Ganesh Bike Rentals reserves the right to refuse service to anyone without explanation.</li>
+      <li>We are not responsible for any personal belongings left in or on the bike.</li>
+      <li>By completing a booking, you agree to all the above terms and conditions.</li>
+      <li>Disputes are subject to the jurisdiction of Hyderabad courts.</li>
+    </ul>
+  </div>
+
+  <div style="text-align:center;margin-top:48px;">
+    <a href="bikes.html" class="btn-primary" style="display:inline-flex;">
+      <i class="fas fa-motorcycle"></i> Browse &amp; Book Bikes
+    </a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.webp" alt="Logo" />
+        <span class="logo-text"><span>S</span>ri <span>G</span>anesh</span>
+      </a>
+      <p>Hyderabad's most trusted bike rental service. Affordable, reliable, and always ready to ride.</p>
+      <div class="social-links">
+        <a href="#" class="social-link fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link tw" aria-label="X Twitter"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://wa.me/919100438272" target="_blank" rel="noopener noreferrer" class="social-link wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-link yt" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="bikes.html">Our Bikes</a></li>
+        <li><a href="mybookings.html">My Bookings</a></li>
+        <li><a href="index.html#why-us">Why Us</a></li>
+        <li><a href="index.html#location">Location</a></li>
+        <li><a href="terms.html">Terms &amp; Conditions</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919100438272">+91 91004 38272</a></li>
+        <li><a href="mailto:hello@sriganeshbikerentals.in">hello@sriganeshbikerentals.in</a></li>
+        <li><a href="index.html#location">ShivBagh, Balkampet, Hyderabad</a></li>
+        <li>Mon – Sun: 7:00 AM – 10:00 PM</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 <span>Sri Ganesh Bike Rentals</span>. All rights reserved.</p>
+    <p>Developed by <span>Venky</span></p>
+  </div>
+</footer>
+
+<div class="fab-wrap">
+  <a href="tel:+919100438272" class="fab fab-call" aria-label="Call us"><i class="fas fa-phone-volume"></i></a>
+  <a href="https://wa.me/919100438272?text=Hi%2C%20I%20want%20to%20rent%20a%20bike%20from%20Sri%20Ganesh%20Bike%20Rentals" target="_blank" rel="noopener noreferrer" class="fab fab-wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

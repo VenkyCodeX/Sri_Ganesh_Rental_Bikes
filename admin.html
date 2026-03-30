@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – Sri Ganesh Bike Rentals</title>
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img src="assets/logo.webp" alt="Logo" />
+    <span class="logo-text"><span>S</span>G Admin</span>
+  </div>
+
+  <div class="sidebar-label">Main Menu</div>
+  <nav class="sidebar-nav">
+    <div class="nav-item active" data-page="dashboard">
+      <i class="fas fa-gauge-high"></i> Dashboard
+    </div>
+    <div class="nav-item" data-page="add-bike">
+      <i class="fas fa-plus-circle"></i> Add Bike
+    </div>
+    <div class="nav-item" data-page="manage-bikes">
+      <i class="fas fa-motorcycle"></i> Manage Bikes
+    </div>
+    <div class="nav-item" data-page="bookings">
+      <i class="fas fa-calendar-check"></i> Bookings
+    </div>
+    <div class="nav-item" data-page="payments">
+      <i class="fas fa-indian-rupee-sign"></i> Payments
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Website</a>
+    <a href="#" id="logoutBtn" style="margin-top:4px;color:#f87171"><i class="fas fa-right-from-bracket"></i> Logout</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+      <span class="topbar-title" id="topbarTitle">Dashboard</span>
+    </div>
+    <div class="topbar-right">
+      <span class="admin-badge"><i class="fas fa-circle" style="font-size:8px;color:#4ade80"></i> Admin</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- DASHBOARD PAGE -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats-grid" id="dashStats"></div>
+      <div class="section-card">
+        <div class="section-card-header">
+          <h3><i class="fas fa-clock" style="color:var(--orange);margin-right:8px"></i>Recent Bookings</h3>
+        </div>
+        <div class="section-card-body">
+          <div class="table-wrap">
+            <table id="recentBookingsTable">
+              <thead>
+                <tr>
+                  <th>Booking ID</th><th>Customer</th><th>Bike</th>
+                  <th>From</th><th>To</th><th>Amount</th><th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentBookingsTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD BIKE PAGE -->
+    <div class="page" id="page-add-bike">
+      <div class="section-card">
+        <div class="section-card-header">
+          <h3><i class="fas fa-plus-circle" style="color:var(--orange);margin-right:8px"></i>Add New Bike</h3>
+        </div>
+        <div class="section-card-body">
+          <form id="addBikeForm">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Bike Name *</label>
+                <input type="text" id="bikeName" placeholder="e.g. Royal Enfield Classic 350" required />
+              </div>
+              <div class="form-group">
+                <label>Category *</label>
+                <select id="bikeCategory" required>
+                  <option value="">Select category</option>
+                  <option value="cruiser">Cruiser</option>
+                  <option value="sport">Sport</option>
+                  <option value="scooter">Scooter</option>
+                  <option value="adventure">Adventure</option>
+                  <option value="commuter">Commuter</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Price per Day (₹) *</label>
+                <input type="number" id="bikePrice" placeholder="e.g. 699" min="1" required />
+              </div>
+              <div class="form-group">
+                <label>Location *</label>
+                <input type="text" id="bikeLocation" placeholder="e.g. Jubilee Hills" required />
+              </div>
+              <div class="form-group">
+                <label>Engine CC</label>
+                <input type="text" id="bikeEngine" placeholder="e.g. 350cc" />
+              </div>
+              <div class="form-group">
+                <label>Status *</label>
+                <select id="bikeStatus" required>
+                  <option value="available">Available</option>
+                  <option value="rented">Rented</option>
+                  <option value="maintenance">Maintenance</option>
+                </select>
+              </div>
+              <div class="form-group full">
+                <label>Image URL</label>
+                <input type="url" id="bikeImgUrl" placeholder="https://…" />
+                <div class="img-preview-wrap" id="imgPreviewWrap">
+                  <div class="placeholder"><i class="fas fa-image"></i>Image preview</div>
+                </div>
+              </div>
+              <div class="form-group full">
+                <label>Or Upload Image</label>
+                <input type="file" id="bikeImgFile" accept="image/*" />
+              </div>
+              <div class="form-group full">
+                <label>Description</label>
+                <textarea id="bikeDesc" rows="3" placeholder="Brief description of the bike…"></textarea>
+              </div>
+            </div>
+            <div style="margin-top:20px">
+              <button type="submit" class="btn-submit">
+                <i class="fas fa-plus"></i> Add Bike
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- MANAGE BIKES PAGE -->
+    <div class="page" id="page-manage-bikes">
+      <div class="section-card">
+        <div class="section-card-header">
+          <h3><i class="fas fa-motorcycle" style="color:var(--orange);margin-right:8px"></i>Manage Bikes</h3>
+          <span id="manageBikeCount" style="font-size:13px;color:var(--text-muted)"></span>
+        </div>
+        <div class="section-card-body">
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="manageBikeSearch" placeholder="Search bikes…" />
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Image</th><th>Name</th><th>Category</th>
+                  <th>Price</th><th>Location</th><th>Status</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="manageBikesTbody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state hidden" id="manageBikesEmpty">
+            <i class="fas fa-motorcycle"></i>
+            <p>No bikes found.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKINGS PAGE -->
+    <div class="page" id="page-bookings">
+      <div class="section-card">
+        <div class="section-card-header">
+          <h3><i class="fas fa-calendar-check" style="color:var(--orange);margin-right:8px"></i>All Bookings</h3>
+          <span id="bookingCount" style="font-size:13px;color:var(--text-muted)"></span>
+        </div>
+        <div class="section-card-body">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th><th>Customer</th><th>Phone</th>
+                  <th>Bike</th><th>From</th><th>To</th><th>Pickup</th><th>Amount</th><th>Status</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="bookingsTbody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state hidden" id="bookingsEmpty">
+            <i class="fas fa-calendar-xmark"></i>
+            <p>No bookings yet. Bookings will appear here after customers complete payment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENTS PAGE -->
+    <div class="page" id="page-payments">
+      <div class="stats-grid" id="payStats"></div>
+      <div class="section-card">
+        <div class="section-card-header">
+          <h3><i class="fas fa-indian-rupee-sign" style="color:var(--orange);margin-right:8px"></i>Payment History</h3>
+        </div>
+        <div class="section-card-body">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Booking ID</th><th>Customer</th><th>Bike</th>
+                  <th>Date</th><th>Amount</th><th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="paymentsTbody"></tbody>
+            </table>
+          </div>
+          <div class="empty-state hidden" id="paymentsEmpty">
+            <i class="fas fa-receipt"></i>
+            <p>No payment records yet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- EDIT BIKE MODAL -->
+<div class="admin-modal-overlay" id="editModalOverlay">
+  <div class="admin-modal">
+    <button class="modal-close-btn" id="editModalClose"><i class="fas fa-xmark"></i></button>
+    <h3><i class="fas fa-pen" style="color:var(--orange);margin-right:8px"></i>Edit Bike</h3>
+    <form id="editBikeForm">
+      <input type="hidden" id="editBikeId" />
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Bike Name</label>
+          <input type="text" id="editBikeName" required />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="editBikeCategory">
+            <option value="cruiser">Cruiser</option>
+            <option value="sport">Sport</option>
+            <option value="scooter">Scooter</option>
+            <option value="adventure">Adventure</option>
+            <option value="commuter">Commuter</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Price/Day (₹)</label>
+          <input type="number" id="editBikePrice" min="1" required />
+        </div>
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" id="editBikeLocation" required />
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="editBikeStatus">
+            <option value="available">Available</option>
+            <option value="rented">Rented</option>
+            <option value="maintenance">Maintenance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="url" id="editBikeImg" />
+        </div>
+        <div class="form-group">
+          <label>Badge</label>
+          <select id="editBikeBadge">
+            <option value="Available">Available</option>
+            <option value="Popular">Popular</option>
+            <option value="Hot">Hot</option>
+            <option value="New">New</option>
+            <option value="Premium">Premium</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Engine CC</label>
+          <input type="text" id="editBikeEngine" placeholder="e.g. 350cc" />
+        </div>
+        <div class="form-group full">
+          <label>Description</label>
+          <textarea id="editBikeDesc" rows="2"></textarea>
+        </div>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:10px">
+        <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Save Changes</button>
+        <button type="button" id="editCancelBtn" style="padding:11px 20px;border-radius:8px;background:var(--dark4);color:var(--text-muted);font-size:14px">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i class="fas fa-circle-check"></i>
+  <span id="toastMsg"></span>
+</div>
+
+<div class="admin-login-overlay" id="adminLoginOverlay">
+  <div class="admin-login-box">
+    <img src="assets/logo.webp" alt="Logo" style="width:48px;height:48px;border-radius:10px;margin:0 auto 12px;display:block;" />
+    <h2>Admin Access</h2>
+    <p>Enter the admin password to continue.</p>
+    <div class="form-group" style="margin-top:20px">
+      <input type="email"    id="adminEmailInput" placeholder="Admin Email"    style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:14px;margin-bottom:10px;" />
+      <input type="password" id="adminPassInput"  placeholder="Password"       style="width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:14px;" />
+    </div>
+    <div id="adminPassError" style="color:#f87171;font-size:13px;margin-top:6px;display:none;">Incorrect credentials. Try again.</div>
+    <button id="adminPassBtn" style="margin-top:14px;width:100%;background:var(--orange);color:#fff;padding:11px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;">Login</button>
+  </div>
+</div>
+
+<style>
+.admin-login-overlay {
+  position:fixed;inset:0;background:var(--dark);
+  z-index:9999;display:flex;align-items:center;justify-content:center;
+}
+.admin-login-overlay.hidden { display:none; }
+.admin-login-box {
+  background:var(--dark3);border:1px solid var(--border);
+  border-radius:16px;padding:36px 32px;width:100%;max-width:360px;text-align:center;
+}
+.admin-login-box h2 { font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;margin-bottom:6px; }
+.admin-login-box p  { font-size:14px;color:var(--text-muted); }
+</style>
+
+<script src="admin.js"></script>
+</body>
+</html>

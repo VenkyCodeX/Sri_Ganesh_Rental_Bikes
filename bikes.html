@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Bikes – Sri Ganesh Bike Rentals</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="bikes.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <svg class="loader-svg" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g class="speed-line">
+      <line x1="10" y1="55" x2="40" y2="55" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      <line x1="5"  y1="63" x2="30" y2="63" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+      <line x1="15" y1="47" x2="38" y2="47" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+    </g>
+    <g class="loader-moto">
+      <circle cx="70" cy="75" r="18" stroke="#c9a84c" stroke-width="3" fill="none"/>
+      <circle cx="70" cy="75" r="6"  fill="#c9a84c"/>
+      <circle cx="148" cy="75" r="18" stroke="#c9a84c" stroke-width="3" fill="none"/>
+      <circle cx="148" cy="75" r="6"  fill="#c9a84c"/>
+      <path d="M70 57 L100 40 L140 40 L155 57 L148 57" stroke="#fff" stroke-width="3" fill="none" stroke-linejoin="round"/>
+      <line x1="70" y1="57" x2="100" y2="57" stroke="#fff" stroke-width="3"/>
+      <line x1="100" y1="40" x2="100" y2="57" stroke="#fff" stroke-width="2.5"/>
+      <path d="M95 40 Q115 32 138 40" stroke="#c9a84c" stroke-width="3" fill="none"/>
+      <path d="M72 65 Q60 68 50 72" stroke="#888" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle class="exhaust" cx="46" cy="72" r="4" fill="#555" opacity="0.7"/>
+      <line x1="148" y1="40" x2="155" y2="35" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="118" cy="36" rx="8" ry="9" fill="#c9a84c"/>
+      <path d="M112 44 Q110 55 108 57 L130 57 Q128 50 122 44 Z" fill="#c9a84c"/>
+    </g>
+    <line x1="40" y1="93" x2="180" y2="93" stroke="#2a2a2a" stroke-width="2"/>
+  </svg>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <p class="loader-text">Loading Bikes…</p>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo.webp" alt="Logo" />
+    <span class="logo-text"><span>S</span>ri <span>G</span>anesh</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="bikes.html" style="color:var(--orange)">Bikes</a></li>
+    <li><a href="index.html#why-us">Why Us</a></li>
+    <li><a href="index.html#location">Location</a></li>
+    <li><a href="mybookings.html">My Bookings</a></li>
+    <li><a href="terms.html">Terms</a></li>
+  </ul>
+  <a href="bikes.html" class="btn-book">Book Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fas fa-chevron-right"></i>
+      <span>Our Bikes</span>
+    </nav>
+    <h1>Our <span>Bike</span> Fleet</h1>
+    <p>Choose from 20+ premium bikes. All serviced, insured &amp; ready to ride.</p>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filterBar">
+  <div class="filter-inner">
+    <div class="filter-cats" id="filterCats">
+      <button class="cat-btn active" data-cat="all">All</button>
+      <button class="cat-btn" data-cat="cruiser">Cruiser</button>
+      <button class="cat-btn" data-cat="sport">Sport</button>
+      <button class="cat-btn" data-cat="scooter">Scooter</button>
+      <button class="cat-btn" data-cat="adventure">Adventure</button>
+      <button class="cat-btn" data-cat="commuter">Commuter</button>
+    </div>
+    <div class="filter-right">
+      <select id="sortSelect" class="filter-select">
+        <option value="">Sort By</option>
+        <option value="price-asc">Price: Low → High</option>
+        <option value="price-desc">Price: High → Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+      <div class="search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search bikes…" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BIKES GRID -->
+<section class="bikes-section">
+  <div class="bikes-count" id="bikesCount"></div>
+  <div class="bikes-grid" id="bikesGrid">
+    <!-- Cards injected by JS -->
+  </div>
+  <div class="no-results hidden" id="noResults">
+    <i class="fas fa-motorcycle"></i>
+    <p>No bikes found. Try a different filter.</p>
+  </div>
+</section>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close"><i class="fas fa-xmark"></i></button>
+
+    <!-- TABS -->
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="book">
+        <i class="fas fa-calendar-check"></i> Book
+      </button>
+      <button class="modal-tab" data-tab="reviews">
+        <i class="fas fa-star"></i> Reviews
+      </button>
+    </div>
+
+    <!-- BOOK TAB -->
+    <div class="tab-content active" id="tab-book">
+
+      <!-- STEP 1 -->
+      <div class="step" id="step1">
+        <div class="modal-bike-header" id="modalBikeHeader"></div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="custName" placeholder="Enter your name" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="custPhone" placeholder="+91 XXXXX XXXXX" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="date" id="startDate" />
+          </div>
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="date" id="endDate" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Pickup Time</label>
+            <input type="time" id="pickupTime" value="10:00" />
+          </div>
+          <div class="form-group">
+            <label>Payment Preference</label>
+            <select id="payAtPickup">
+              <option value="upi">UPI / Online</option>
+              <option value="cash">Cash on Pickup</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="booking-summary" id="bookingSummary">
+          <div class="summary-row"><span>Duration</span><span id="sumDays">– days</span></div>
+          <div class="summary-row"><span>Rate</span><span id="sumRate">&#8377;–/day</span></div>
+          <div class="summary-row total"><span>Total Rent</span><span id="sumTotal">&#8377;–</span></div>
+        </div>
+
+        <p class="wa-note"><i class="fas fa-circle-info"></i> Online booking is optional. Final confirmation via WhatsApp/call is preferred.</p>
+
+        <div class="terms-check">
+          <input type="checkbox" id="termsCheck" />
+          <label for="termsCheck">I agree to the <a href="terms.html" target="_blank">Terms &amp; Conditions</a> and will bring valid DL + ID at pickup.</label>
+        </div>
+
+        <div class="step-actions">
+          <a href="#" id="waBookBtn" target="_blank" rel="noopener noreferrer" class="btn-whatsapp" style="flex:1;justify-content:center;">
+            <i class="fab fa-whatsapp"></i> Book via WhatsApp
+          </a>
+          <button class="btn-primary" id="proceedPayBtn" style="flex:1;justify-content:center;">
+            <i class="fas fa-credit-card"></i> Proceed to Pay
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: PAYMENT -->
+      <div class="step hidden" id="step2">
+        <h3 class="step-title"><i class="fas fa-lock"></i> Secure Payment</h3>
+        <div class="pay-amount-display" id="payAmountDisplay"></div>
+
+        <div class="pay-tabs">
+          <button class="pay-tab active" data-pay="upi"><i class="fas fa-mobile-screen"></i> UPI</button>
+          <button class="pay-tab" data-pay="card"><i class="fas fa-credit-card"></i> Card</button>
+          <button class="pay-tab" data-pay="qr"><i class="fas fa-qrcode"></i> QR Code</button>
+        </div>
+
+        <!-- UPI -->
+        <div class="pay-content active" id="pay-upi">
+          <div class="form-group">
+            <label>UPI ID</label>
+            <input type="text" id="upiId" placeholder="yourname@upi" />
+          </div>
+          <div class="upi-apps">
+            <div class="upi-app"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/200px-Paytm_Logo_%28standalone%29.svg.png" alt="Paytm" /><span>Paytm</span></div>
+            <div class="upi-app"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/200px-Google_Pay_Logo.svg.png" alt="GPay" /><span>GPay</span></div>
+            <div class="upi-app"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/200px-PhonePe_Logo.svg.png" alt="PhonePe" /><span>PhonePe</span></div>
+          </div>
+        </div>
+
+        <!-- CARD -->
+        <div class="pay-content hidden" id="pay-card">
+          <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" id="cardNum" placeholder="1234 5678 9012 3456" maxlength="19" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Expiry</label>
+              <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" />
+            </div>
+            <div class="form-group">
+              <label>CVV</label>
+              <input type="password" id="cardCvv" placeholder="•••" maxlength="3" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Name on Card</label>
+            <input type="text" id="cardName" placeholder="Full name" />
+          </div>
+        </div>
+
+        <!-- QR -->
+        <div class="pay-content hidden" id="pay-qr">
+          <div class="qr-wrap">
+            <div class="qr-placeholder">
+              <i class="fas fa-qrcode"></i>
+              <p>Scan with any UPI app</p>
+              <small>Paytm · GPay · PhonePe · BHIM</small>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-primary pay-now-btn" id="payNowBtn" style="width:100%;justify-content:center;margin-top:16px;">
+          <i class="fas fa-lock"></i> Pay Now
+        </button>
+        <p class="ssl-note"><i class="fas fa-shield-halved"></i> 256-bit SSL encrypted · 100% secure</p>
+      </div>
+
+      <!-- STEP 3: SUCCESS -->
+      <div class="step hidden" id="step3">
+        <div class="success-wrap">
+          <div class="success-check">
+            <svg viewBox="0 0 52 52" class="check-svg">
+              <circle class="check-circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="check-mark" fill="none" d="M14 27 l8 8 l16-16"/>
+            </svg>
+          </div>
+          <h2>Payment Successful!</h2>
+          <p>Your bike has been booked. We'll contact you shortly.</p>
+          <div class="booking-id-box">
+            <span>Booking ID</span>
+            <strong id="bookingIdDisplay"></strong>
+          </div>
+          <button class="btn-primary" id="doneBtn" style="margin-top:20px;width:100%;justify-content:center;">
+            <i class="fas fa-check"></i> Done
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /tab-book -->
+
+    <!-- REVIEWS TAB -->
+    <div class="tab-content hidden" id="tab-reviews">
+      <div class="reviews-list" id="reviewsList"></div>
+
+      <div class="review-form">
+        <h4>Write a Review</h4>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="reviewName" placeholder="Enter your name" />
+        </div>
+        <div class="star-picker" id="starPicker">
+          <span>Rating:</span>
+          <div class="stars-input">
+            <i class="fas fa-star" data-val="1"></i>
+            <i class="fas fa-star" data-val="2"></i>
+            <i class="fas fa-star" data-val="3"></i>
+            <i class="fas fa-star" data-val="4"></i>
+            <i class="fas fa-star" data-val="5"></i>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Review</label>
+          <textarea id="reviewText" rows="3" placeholder="Share your experience…"></textarea>
+        </div>
+        <button class="btn-primary" id="submitReviewBtn" style="width:100%;justify-content:center;">
+          <i class="fas fa-paper-plane"></i> Submit Review
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /modal -->
+</div><!-- /overlay -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.webp" alt="Logo" />
+        <span class="logo-text"><span>S</span>ri <span>G</span>anesh</span>
+      </a>
+      <p>Hyderabad's most trusted bike rental service.</p>
+      <div class="social-links">
+        <a href="#" class="social-link fb"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link ig"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link tw"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://wa.me/919100438272" target="_blank" rel="noopener noreferrer" class="social-link wa"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-link yt"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="bikes.html">Our Bikes</a></li>
+        <li><a href="mybookings.html">My Bookings</a></li>
+        <li><a href="index.html#why-us">Why Us</a></li>
+        <li><a href="index.html#location">Location</a></li>
+        <li><a href="terms.html">Terms &amp; Conditions</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919100438272">+91 91004 38272</a></li>
+        <li><a href="mailto:hello@sriganeshbikerentals.in">hello@sriganeshbikerentals.in</a></li>
+        <li><a href="index.html#location">ShivBagh, Balkampet, Hyderabad</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 <span>Sri Ganesh Bike Rentals</span>. All rights reserved.</p>
+    <p>Developed by <span>Venky</span></p>
+  </div>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div class="fab-wrap">
+  <a href="tel:+919100438272" class="fab fab-call" aria-label="Call">
+    <i class="fas fa-phone-volume"></i>
+  </a>
+  <a href="https://wa.me/919100438272?text=Hi%2C%20I%20want%20to%20rent%20a%20bike%20from%20Sri%20Ganesh%20Bike%20Rentals" target="_blank" rel="noopener noreferrer"
+     class="fab fab-wa" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
+<script src="bikes.js"></script>
+</body>
+</html>
