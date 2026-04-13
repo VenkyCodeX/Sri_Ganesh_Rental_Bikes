@@ -1,6 +1,6 @@
 'use strict';
 
-const API = '/api';
+const API = window.location.hostname === 'localhost' ? '/api' : 'https://sri-ganesh-rental-bikes.onrender.com/api';
 
 // ── LOADER ──
 window.addEventListener('load', () => {

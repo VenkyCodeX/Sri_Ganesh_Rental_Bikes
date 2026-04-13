@@ -9,7 +9,16 @@ connectDB();
 const app = express();
 
 // ── MIDDLEWARE ──
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5000',
+    'http://localhost:3000',
+    'https://venkycodex.github.io',
+    'https://sriganeshbikerental.in',
+    'https://www.sriganeshbikerental.in'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Serve frontend static files from parent directory

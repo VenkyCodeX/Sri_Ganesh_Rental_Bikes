@@ -201,7 +201,6 @@ tbody tr:hover td { background: rgba(255,255,255,0.02); }
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus { border-color: var(--orange); }
-.form-group textarea { resize: vertical; }
 
 .img-preview-wrap {
   margin-top: 10px; border-radius: 10px; overflow: hidden;
