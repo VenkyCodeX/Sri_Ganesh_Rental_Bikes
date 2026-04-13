@@ -83,12 +83,20 @@ function renderBikes() {
   }
   noRes.classList.add('hidden');
 
-  grid.innerHTML = bikes.map((b, i) => `
-    <div class="bike-card" style="animation-delay:${i * 0.06}s">
+  grid.innerHTML = bikes.map((b, i) => {
+    const unavailable = b.status === 'rented' || b.status === 'maintenance';
+    const overlayHTML = b.status === 'rented'
+      ? `<div class="card-unavailable-overlay rented-overlay"><i class="fas fa-lock"></i><span>Currently Rented</span></div>`
+      : b.status === 'maintenance'
+      ? `<div class="card-unavailable-overlay maintenance-overlay"><i class="fas fa-wrench"></i><span>Under Maintenance</span></div>`
+      : '';
+    return `
+    <div class="bike-card ${unavailable ? 'bike-unavailable' : ''}" style="animation-delay:${i * 0.06}s">
       <div class="card-img-wrap">
         <img src="${b.img}" alt="${b.name}" loading="lazy" />
         <span class="card-badge ${badgeClass(b.badge)}">${b.badge}</span>
         <span class="card-status status-${b.status}">${b.status.charAt(0).toUpperCase() + b.status.slice(1)}</span>
+        ${overlayHTML}
       </div>
       <div class="card-body">
         <div class="card-name">${b.name}</div>
@@ -101,12 +109,15 @@ function renderBikes() {
           </div>
         </div>
         <div class="card-actions">
-          <button class="btn-book-card" onclick="openModal('${b._id}','book')">Book Now</button>
-          <button class="btn-pay-card"  onclick="openModal('${b._id}','pay')">Pay Now</button>
+          ${unavailable
+            ? `<button class="btn-unavailable" disabled>${b.status === 'rented' ? '<i class="fas fa-lock"></i> Currently Rented' : '<i class="fas fa-wrench"></i> Under Maintenance'}</button>`
+            : `<button class="btn-book-card" onclick="openModal('${b._id}','book')">Book Now</button>
+               <button class="btn-pay-card" onclick="openModal('${b._id}','pay')">Pay Now</button>`
+          }
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 // ── FILTERS ──
@@ -136,6 +147,7 @@ const overlay = document.getElementById('modalOverlay');
 window.openModal = function (bikeId, mode) {
   currentBike = bikes.find(b => b._id === bikeId);
   if (!currentBike) return;
+  if (currentBike.status === 'rented' || currentBike.status === 'maintenance') return;
 
   resetModal();
   populateBikeHeader();

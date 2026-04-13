@@ -162,6 +162,34 @@
 }
 .btn-pay-card:hover { opacity: 0.88; }
 
+/* ── UNAVAILABLE OVERLAY ── */
+.bike-unavailable { opacity: 0.85; }
+.card-unavailable-overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px; font-weight: 700; font-size: 15px;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(2px);
+}
+.rented-overlay {
+  background: rgba(8, 12, 20, 0.72);
+  color: #facc15;
+}
+.maintenance-overlay {
+  background: rgba(239, 68, 68, 0.72);
+  color: #fff;
+}
+.card-unavailable-overlay i { font-size: 28px; }
+.btn-unavailable {
+  width: 100%; padding: 10px; border-radius: 8px;
+  font-size: 13px; font-weight: 600;
+  background: var(--dark4); color: var(--text-muted);
+  border: 1px solid var(--border);
+  cursor: not-allowed; display: flex;
+  align-items: center; justify-content: center; gap: 6px;
+}
+
 /* ── NO RESULTS ── */
 .no-results {
   text-align: center; padding: 80px 20px;
