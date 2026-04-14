@@ -12,16 +12,21 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    /* Page-specific overrides */
     .nav-links a[href="index.html"] { color: var(--orange); }
   </style>
 </head>
 <body>
 
+<!-- ANNOUNCEMENT BANNER -->
+<div class="announce-bar">
+  <span>Save Big with <strong>Monthly Bookings!</strong></span>
+  <a href="bikes.html" class="announce-btn">Explore Now</a>
+</div>
+
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="nav-logo">
-    <img src="assets/logo.webp" alt="Sri Ganesh Bike Rentals Logo" />
+    <img src="assets/logo.png" alt="Sri Ganesh Bike Rentals Logo" />
     <span class="logo-text"><span>S</span>ri <span>G</span>anesh</span>
   </a>
 
@@ -33,7 +38,7 @@
     <li><a href="terms.html">Terms</a></li>
   </ul>
 
-  <a href="bikes.html" class="btn-book">Book Now</a>
+  <a href="tel:+919100438272" class="nav-phone"><i class="fas fa-phone"></i> +91 91004 38272</a>
   <button class="hamburger" id="hamburger" aria-label="Toggle menu">
     <span></span><span></span><span></span>
   </button>
@@ -41,34 +46,115 @@
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
   <div class="hero-content">
-    <div class="hero-badge"><i class="fas fa-circle-check"></i> Hyderabad's #1 Bike Rental</div>
-    <h1>Sri Ganesh Bike Rentals –<br><span>Easy, Affordable</span> &amp; Fast</h1>
-    <p>Daily rentals at the best price. No hidden charges. Pick up or doorstep delivery available across Hyderabad.</p>
-    <a href="bikes.html" class="btn-primary">
-      <i class="fas fa-motorcycle"></i> View Bikes
-    </a>
+    <h1>RIDE SAFE<br>&amp; CONFIDENT<br>WITH<br><span>SRI GANESH BIKES</span></h1>
+  </div>
 
-    <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-num" data-target="500" data-suffix="+">0</div>
-        <div class="stat-label">Happy Riders</div>
+  <!-- SEARCH WIDGET -->
+  <div class="search-widget">
+    <div class="search-tabs">
+      <button class="stab active" data-tab="daily">Daily</button>
+      <button class="stab" data-tab="monthly">Monthly</button>
+    </div>
+    <div class="search-fields">
+      <div class="sfield">
+        <input type="text" id="searchLocation" placeholder="Hyderabad" value="Hyderabad" />
+        <i class="fas fa-location-dot"></i>
       </div>
-      <div class="stat-item">
-        <div class="stat-num" data-target="20" data-suffix="+">0</div>
-        <div class="stat-label">Bike Models</div>
+      <div class="sfield-row">
+        <div class="sfield">
+          <input type="date" id="searchFrom" />
+          <i class="fas fa-calendar"></i>
+        </div>
+        <div class="sfield">
+          <input type="time" id="searchFromTime" value="10:00" />
+          <i class="fas fa-clock"></i>
+        </div>
       </div>
-      <div class="stat-item">
-        <div class="stat-num" data-target="299" data-prefix="₹">0</div>
-        <div class="stat-label">Starting/Day</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" data-target="24" data-suffix="/7">0</div>
-        <div class="stat-label">Support</div>
+      <div class="sfield-row">
+        <div class="sfield">
+          <input type="date" id="searchTo" />
+          <i class="fas fa-calendar"></i>
+        </div>
+        <div class="sfield">
+          <input type="time" id="searchToTime" value="10:00" />
+          <i class="fas fa-clock"></i>
+        </div>
       </div>
     </div>
+    <a href="bikes.html" class="btn-search">Search</a>
   </div>
+</section>
+
+<!-- FEATURED BIKES STRIP -->
+<section class="featured-strip" id="featured">
+  <div class="strip-header">
+    <h2>Available <span>Bikes</span></h2>
+    <a href="bikes.html" class="strip-see-all">See All <i class="fas fa-arrow-right"></i></a>
+  </div>
+  <div class="carousel-wrap">
+    <button class="strip-nav prev" id="stripPrev"><i class="fas fa-chevron-left"></i></button>
+    <div class="carousel-track" id="carouselTrack">
+      <a href="bikes.html" class="c-card">
+        <img src="assets/Royal-Enfield.webp" alt="Royal Enfield Classic" onerror="this.src='assets/placeholder.svg'" />
+        <div class="c-info">
+          <div class="c-name">Royal Enfield Classic</div>
+          <div class="c-sub">Cruiser &bull; 349cc</div>
+          <div class="c-price">&#8377;599/day</div>
+        </div>
+      </a>
+      <a href="bikes.html" class="c-card">
+        <img src="assets/Activa.webp" alt="Honda Activa" onerror="this.src='assets/placeholder.svg'" />
+        <div class="c-info">
+          <div class="c-name">Honda Activa</div>
+          <div class="c-sub">Scooter &bull; 110cc</div>
+          <div class="c-price">&#8377;299/day</div>
+        </div>
+      </a>
+      <a href="bikes.html" class="c-card">
+        <img src="assets/Avengers.webp" alt="Bajaj Avenger" onerror="this.src='assets/placeholder.svg'" />
+        <div class="c-info">
+          <div class="c-name">Bajaj Avenger</div>
+          <div class="c-sub">Cruiser &bull; 220cc</div>
+          <div class="c-price">&#8377;499/day</div>
+        </div>
+      </a>
+      <a href="bikes.html" class="c-card">
+        <img src="assets/Honda-Shine.webp" alt="Honda Shine" onerror="this.src='assets/placeholder.svg'" />
+        <div class="c-info">
+          <div class="c-name">Honda Shine</div>
+          <div class="c-sub">Commuter &bull; 125cc</div>
+          <div class="c-price">&#8377;349/day</div>
+        </div>
+      </a>
+      <a href="bikes.html" class="c-card">
+        <img src="assets/Honda-Activa.webp" alt="Honda Activa 6G" onerror="this.src='assets/placeholder.svg'" />
+        <div class="c-info">
+          <div class="c-name">Honda Activa 6G</div>
+          <div class="c-sub">Scooter &bull; 110cc</div>
+          <div class="c-price">&#8377;319/day</div>
+        </div>
+      </a>
+      <a href="bikes.html" class="c-card">
+        <img src="assets/activa-scooter.webp" alt="Activa Scooter" onerror="this.src='assets/placeholder.svg'" />
+        <div class="c-info">
+          <div class="c-name">Activa Scooter</div>
+          <div class="c-sub">Scooter &bull; 110cc</div>
+          <div class="c-price">&#8377;299/day</div>
+        </div>
+      </a>
+      <a href="bikes.html" class="c-card">
+        <img src="assets/Honda-Activa2.webp" alt="Honda Activa 5G" onerror="this.src='assets/placeholder.svg'" />
+        <div class="c-info">
+          <div class="c-name">Honda Activa 5G</div>
+          <div class="c-sub">Scooter &bull; 110cc</div>
+          <div class="c-price">&#8377;289/day</div>
+        </div>
+      </a>
+    </div>
+    <button class="strip-nav next" id="stripNext"><i class="fas fa-chevron-right"></i></button>
+  </div>
+  <div class="carousel-dots" id="carouselDots"></div>
 </section>
 
 <!-- WHY CHOOSE US -->
@@ -249,7 +335,7 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <a href="index.html" class="nav-logo">
-        <img src="assets/logo.webp" alt="Logo" />
+        <img src="assets/logo.png" alt="Logo" />
         <span class="logo-text"><span>S</span>ri <span>G</span>anesh</span>
       </a>
       <p>Hyderabad's most trusted bike rental service. Sri Ganesh Bike Rentals – affordable, reliable, and always ready to ride.</p>
@@ -302,5 +388,79 @@
 </div>
 
 <script src="script.js"></script>
+<script>
+// Set default dates
+(function(){
+  const today = new Date();
+  const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
+  const fmt = d => d.toISOString().split('T')[0];
+  document.getElementById('searchFrom').value = fmt(today);
+  document.getElementById('searchTo').value = fmt(tomorrow);
+
+  // Tabs
+  document.querySelectorAll('.stab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Featured bikes strip — replace static cards if API is live
+  fetch('/api/bikes?sort=rating')
+    .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+    .then(bikes => {
+      if (!bikes || !bikes.length) return;
+      const track = document.getElementById('stripTrack');
+      track.innerHTML = bikes.slice(0,8).map(b => `
+        <a href="bikes.html" class="strip-card">
+          <img src="${b.img || 'assets/placeholder.svg'}" alt="${b.name}" loading="lazy" onerror="this.src='assets/placeholder.svg'" />
+          <div class="strip-info">
+            <div class="strip-name">${b.name}</div>
+            <div class="strip-sub">${b.category}${b.engine ? ' &bull; ' + b.engine : ''}</div>
+            <div class="strip-price">&#8377;${b.price}<span>/day</span></div>
+          </div>
+        </a>`).join('');
+    }).catch(()=>{});
+
+  // ── CAROUSEL ──
+  (function(){
+    const track = document.getElementById('carouselTrack');
+    const dotsWrap = document.getElementById('carouselDots');
+    const cards = Array.from(track.querySelectorAll('.c-card'));
+    const total = cards.length;
+    let current = 0;
+    let autoTimer;
+
+    // Build dots
+    cards.forEach((_,i) => {
+      const d = document.createElement('button');
+      d.className = 'c-dot' + (i===0?' active':'');
+      d.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(d);
+    });
+
+    function goTo(idx) {
+      current = (idx + total) % total;
+      const prevIdx = (current - 1 + total) % total;
+      const nextIdx = (current + 1) % total;
+      cards.forEach((c, i) => {
+        c.className = 'c-card';
+        if (i === current)  c.classList.add('active');
+        else if (i === prevIdx) c.classList.add('prev-card');
+        else if (i === nextIdx) c.classList.add('next-card');
+      });
+      dotsWrap.querySelectorAll('.c-dot').forEach((d,i) => d.classList.toggle('active', i===current));
+    }
+
+    document.getElementById('stripPrev').addEventListener('click', () => { goTo(current-1); resetAuto(); });
+    document.getElementById('stripNext').addEventListener('click', () => { goTo(current+1); resetAuto(); });
+
+    function resetAuto() { clearInterval(autoTimer); autoTimer = setInterval(() => goTo(current+1), 3000); }
+
+    goTo(0);
+    resetAuto();
+  })();
+})();
+</script>
 </body>
 </html>

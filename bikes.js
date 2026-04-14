@@ -2,11 +2,6 @@
 
 const API = window.location.hostname === 'localhost' ? '/api' : 'https://sri-ganesh-rental-bikes.onrender.com/api';
 
-// ── LOADER ──
-window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('loader').classList.add('hidden'), 2200);
-});
-
 // ── HAMBURGER ──
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.getElementById('navLinks');
@@ -15,10 +10,17 @@ hamburger.addEventListener('click', () => {
   navLinks.classList.toggle('open');
 });
 
-// ── NAVBAR SCROLL ──
+// ── NAVBAR SCROLL (hide on down, show on up) ──
+let lastScrollY = 0;
+const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
-  document.getElementById('navbar').style.background =
-    window.scrollY > 50 ? 'rgba(13,18,32,0.99)' : 'rgba(13,18,32,0.95)';
+  const current = window.scrollY;
+  if (current > lastScrollY && current > 80) {
+    navbar.style.transform = 'translateY(-100%)';
+  } else {
+    navbar.style.transform = 'translateY(0)';
+  }
+  lastScrollY = current;
 });
 
 // ── STATE ──

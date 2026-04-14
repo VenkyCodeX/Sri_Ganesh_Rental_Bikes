@@ -62,5 +62,5 @@ if (heroStats) statsObserver.observe(heroStats);
 // ── NAVBAR SCROLL STYLE ──
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').style.background =
-    window.scrollY > 50 ? 'rgba(13,18,32,0.99)' : 'rgba(13,18,32,0.95)';
+    window.scrollY > 50 ? 'rgba(255,255,255,0.99)' : 'rgba(255,255,255,0.97)';
 });
