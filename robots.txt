@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /backend/
+
+Sitemap: https://sriganeshbikerental.in/sitemap.xml
