@@ -25,11 +25,12 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '..')));
 
 // ── API ROUTES ──
-app.use('/api/auth',     require('./routes/auth'));
-app.use('/api/bikes',    require('./routes/bikes'));
-app.use('/api/bookings', require('./routes/bookings'));
-app.use('/api/reviews',  require('./routes/reviews'));
-app.use('/api/upload',   require('./routes/upload'));
+app.use('/api/auth',      require('./routes/auth'));
+app.use('/api/bikes',     require('./routes/bikes'));
+app.use('/api/bookings',  require('./routes/bookings'));
+app.use('/api/reviews',   require('./routes/reviews'));
+app.use('/api/upload',    require('./routes/upload'));
+app.use('/api/cleardata', require('./routes/clearData'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok', service: 'Sri Ganesh Bike Rentals API' }));
