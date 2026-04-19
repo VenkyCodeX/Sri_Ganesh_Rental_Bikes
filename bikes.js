@@ -110,6 +110,7 @@ function renderBikes() {
           ${b.transmission ? `<span><i class="fas fa-gears"></i> ${b.transmission}</span>` : ''}
           ${b.seats ? `<span><i class="fas fa-users"></i> ${b.seats} Seater</span>` : ''}
           ${b.fuelType ? `<span><i class="fas fa-gas-pump"></i> ${b.fuelType}</span>` : ''}
+          ${b.manufacturedYear ? `<span><i class="fas fa-calendar"></i> ${b.manufacturedYear}</span>` : ''}
         </div>
 
         ${b.availableAt ? `<div class="card-available-at"><span>Available at</span><p>${b.availableAt}</p></div>` : ''}
