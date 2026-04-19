@@ -208,14 +208,25 @@ $('addBikeForm').addEventListener('submit', async e => {
     }
 
     const payload = {
-      name:     $('bikeName').value.trim(),
-      category: $('bikeCategory').value,
-      price:    +$('bikePrice').value,
-      location: $('bikeLocation').value.trim(),
-      engine:   $('bikeEngine').value.trim(),
-      status:   $('bikeStatus').value,
-      img:      imgUrl,
-      desc:     $('bikeDesc').value.trim()
+      name:             $('bikeName').value.trim(),
+      category:         $('bikeCategory').value,
+      price:            +$('bikePrice').value,
+      location:         $('bikeLocation').value.trim(),
+      engine:           $('bikeEngine').value.trim(),
+      status:           $('bikeStatus').value,
+      img:              imgUrl,
+      desc:             $('bikeDesc').value.trim(),
+      bikeNumber:       $('bikeNumber').value.trim(),
+      transmission:     $('bikeTransmission').value,
+      seats:            +$('bikeSeats').value,
+      fuelType:         $('bikeFuelType').value,
+      fuelIncluded:     $('bikeFuelIncluded').value,
+      kmLimit:          +$('bikeKmLimit').value,
+      extraChargePerKm: +$('bikeExtraCharge').value,
+      deposit:          +$('bikeDeposit').value,
+      manufacturedYear: $('bikeYear').value.trim(),
+      payAtPickup:      $('bikePayAtPickup').value,
+      availableAt:      $('bikeAvailableAt').value.trim()
     };
 
     const res = await apiFetch(`${API}/bikes`, { method: 'POST', body: JSON.stringify(payload) });
@@ -294,16 +305,27 @@ window.openEditModal = async function (id) {
     const bike = await res.json();
     if (!bike || bike.message) return;
 
-    $('editBikeId').value       = bike._id;
-    $('editBikeName').value     = bike.name;
-    $('editBikeCategory').value = bike.category;
-    $('editBikePrice').value    = bike.price;
-    $('editBikeLocation').value = bike.location;
-    $('editBikeStatus').value   = bike.status;
-    $('editBikeImg').value      = bike.img || '';
-    $('editBikeBadge').value    = bike.badge || 'Available';
-    $('editBikeEngine').value   = bike.engine || '';
-    $('editBikeDesc').value     = bike.desc || '';
+    $('editBikeId').value             = bike._id;
+    $('editBikeName').value           = bike.name;
+    $('editBikeCategory').value       = bike.category;
+    $('editBikePrice').value          = bike.price;
+    $('editBikeLocation').value       = bike.location;
+    $('editBikeStatus').value         = bike.status;
+    $('editBikeImg').value            = bike.img || '';
+    $('editBikeBadge').value          = bike.badge || 'Available';
+    $('editBikeEngine').value         = bike.engine || '';
+    $('editBikeDesc').value           = bike.desc || '';
+    $('editBikeNumber').value         = bike.bikeNumber || '';
+    $('editBikeTransmission').value   = bike.transmission || 'Manual';
+    $('editBikeSeats').value          = bike.seats || 2;
+    $('editBikeFuelType').value       = bike.fuelType || 'Petrol';
+    $('editBikeFuelIncluded').value   = bike.fuelIncluded || 'Fuel Excluded';
+    $('editBikeKmLimit').value        = bike.kmLimit || 0;
+    $('editBikeExtraCharge').value    = bike.extraChargePerKm || 0;
+    $('editBikeDeposit').value        = bike.deposit || 0;
+    $('editBikeYear').value           = bike.manufacturedYear || '';
+    $('editBikePayAtPickup').value    = bike.payAtPickup || 'Yes';
+    $('editBikeAvailableAt').value    = bike.availableAt || '';
     $('editModalOverlay').classList.add('open');
   } catch (err) {
     console.error(err);
@@ -322,15 +344,26 @@ $('editBikeForm').addEventListener('submit', async e => {
   btn.disabled = true;
 
   const payload = {
-    name:     $('editBikeName').value.trim(),
-    category: $('editBikeCategory').value,
-    price:    +$('editBikePrice').value,
-    location: $('editBikeLocation').value.trim(),
-    status:   $('editBikeStatus').value,
-    img:      $('editBikeImg').value.trim(),
-    badge:    $('editBikeBadge').value,
-    engine:   $('editBikeEngine').value.trim(),
-    desc:     $('editBikeDesc').value.trim()
+    name:             $('editBikeName').value.trim(),
+    category:         $('editBikeCategory').value,
+    price:            +$('editBikePrice').value,
+    location:         $('editBikeLocation').value.trim(),
+    status:           $('editBikeStatus').value,
+    img:              $('editBikeImg').value.trim(),
+    badge:            $('editBikeBadge').value,
+    engine:           $('editBikeEngine').value.trim(),
+    desc:             $('editBikeDesc').value.trim(),
+    bikeNumber:       $('editBikeNumber').value.trim(),
+    transmission:     $('editBikeTransmission').value,
+    seats:            +$('editBikeSeats').value,
+    fuelType:         $('editBikeFuelType').value,
+    fuelIncluded:     $('editBikeFuelIncluded').value,
+    kmLimit:          +$('editBikeKmLimit').value,
+    extraChargePerKm: +$('editBikeExtraCharge').value,
+    deposit:          +$('editBikeDeposit').value,
+    manufacturedYear: $('editBikeYear').value.trim(),
+    payAtPickup:      $('editBikePayAtPickup').value,
+    availableAt:      $('editBikeAvailableAt').value.trim()
   };
 
   try {

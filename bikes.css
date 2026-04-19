@@ -136,8 +136,42 @@
 
 .card-body { padding: 18px; }
 .card-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
-.card-location { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+.card-bike-number {
+  font-size: 12px; color: #888888; margin-bottom: 4px;
+  display: flex; align-items: center; gap: 4px;
+}
+.card-bike-number i { font-size: 10px; }
+.card-location { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
 .card-location i { color: var(--orange); margin-right: 4px; }
+
+.card-specs {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.card-specs span {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--orange); font-weight: 600;
+}
+.card-specs i { font-size: 12px; }
+
+.card-available-at {
+  background: #f9f9f9; border: 1px solid #eeeeee;
+  border-radius: 8px; padding: 8px 12px;
+  margin-bottom: 10px;
+}
+.card-available-at span { font-size: 11px; color: #888888; display: block; margin-bottom: 2px; }
+.card-available-at p { font-size: 13px; font-weight: 600; color: #111111; }
+
+.card-pay-pickup {
+  position: absolute; top: 44px; right: 12px;
+  background: rgba(22,163,74,0.9); color: #fff;
+  font-size: 10px; font-weight: 600;
+  padding: 3px 8px; border-radius: 20px;
+  display: flex; align-items: center; gap: 4px;
+}
+
+.card-km { font-size: 12px; color: #555555; margin-top: 2px; }
+.card-deposit { font-size: 13px; font-weight: 600; color: #333333; margin-bottom: 12px; }
 
 .card-meta {
   display: flex; justify-content: space-between; align-items: center;

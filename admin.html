@@ -124,6 +124,63 @@
                   <option value="maintenance">Maintenance</option>
                 </select>
               </div>
+              <div class="form-group">
+                <label>Transmission</label>
+                <select id="bikeTransmission">
+                  <option value="Manual">Manual</option>
+                  <option value="Automatic">Automatic</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Seats</label>
+                <input type="number" id="bikeSeats" value="2" min="1" max="4" />
+              </div>
+              <div class="form-group">
+                <label>Fuel Type</label>
+                <select id="bikeFuelType">
+                  <option value="Petrol">Petrol</option>
+                  <option value="Electric">Electric</option>
+                  <option value="CNG">CNG</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Fuel Included?</label>
+                <select id="bikeFuelIncluded">
+                  <option value="Fuel Excluded">Fuel Excluded</option>
+                  <option value="Fuel Included">Fuel Included</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>KM Limit / Day</label>
+                <input type="number" id="bikeKmLimit" value="0" min="0" />
+              </div>
+              <div class="form-group">
+                <label>Extra Charge / KM (₹)</label>
+                <input type="number" id="bikeExtraCharge" value="0" min="0" />
+              </div>
+              <div class="form-group">
+                <label>Deposit (₹)</label>
+                <input type="number" id="bikeDeposit" value="0" min="0" />
+              </div>
+              <div class="form-group">
+                <label>Manufactured Year</label>
+                <input type="text" id="bikeYear" placeholder="e.g. 2020" />
+              </div>
+              <div class="form-group">
+                <label>Bike Number</label>
+                <input type="text" id="bikeNumber" placeholder="e.g. TS09AB1234" />
+              </div>
+              <div class="form-group">
+                <label>Pay at Pickup</label>
+                <select id="bikePayAtPickup">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+              <div class="form-group full">
+                <label>Available At (Address)</label>
+                <input type="text" id="bikeAvailableAt" placeholder="e.g. Karwan East, Hyderabad" />
+              </div>
               <div class="form-group full">
                 <label>Image URL</label>
                 <input type="url" id="bikeImgUrl" placeholder="https://…" />
@@ -246,58 +303,49 @@
     <form id="editBikeForm">
       <input type="hidden" id="editBikeId" />
       <div class="form-grid">
-        <div class="form-group">
-          <label>Bike Name</label>
-          <input type="text" id="editBikeName" required />
-        </div>
-        <div class="form-group">
-          <label>Category</label>
+        <div class="form-group"><label>Bike Name</label><input type="text" id="editBikeName" required /></div>
+        <div class="form-group"><label>Category</label>
           <select id="editBikeCategory">
-            <option value="cruiser">Cruiser</option>
-            <option value="sport">Sport</option>
-            <option value="scooter">Scooter</option>
-            <option value="adventure">Adventure</option>
+            <option value="cruiser">Cruiser</option><option value="sport">Sport</option>
+            <option value="scooter">Scooter</option><option value="adventure">Adventure</option>
             <option value="commuter">Commuter</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Price/Day (₹)</label>
-          <input type="number" id="editBikePrice" min="1" required />
-        </div>
-        <div class="form-group">
-          <label>Location</label>
-          <input type="text" id="editBikeLocation" required />
-        </div>
-        <div class="form-group">
-          <label>Status</label>
+        <div class="form-group"><label>Price/Day (₹)</label><input type="number" id="editBikePrice" min="1" required /></div>
+        <div class="form-group"><label>Location</label><input type="text" id="editBikeLocation" required /></div>
+        <div class="form-group"><label>Status</label>
           <select id="editBikeStatus">
-            <option value="available">Available</option>
-            <option value="rented">Rented</option>
-            <option value="maintenance">Maintenance</option>
+            <option value="available">Available</option><option value="rented">Rented</option><option value="maintenance">Maintenance</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Image URL</label>
-          <input type="url" id="editBikeImg" />
-        </div>
-        <div class="form-group">
-          <label>Badge</label>
+        <div class="form-group"><label>Badge</label>
           <select id="editBikeBadge">
-            <option value="Available">Available</option>
-            <option value="Popular">Popular</option>
-            <option value="Hot">Hot</option>
-            <option value="New">New</option>
-            <option value="Premium">Premium</option>
+            <option value="Available">Available</option><option value="Popular">Popular</option>
+            <option value="Hot">Hot</option><option value="New">New</option><option value="Premium">Premium</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Engine CC</label>
-          <input type="text" id="editBikeEngine" placeholder="e.g. 350cc" />
+        <div class="form-group"><label>Engine CC</label><input type="text" id="editBikeEngine" placeholder="e.g. 350cc" /></div>
+        <div class="form-group"><label>Bike Number</label><input type="text" id="editBikeNumber" placeholder="e.g. TS09AB1234" /></div>
+        <div class="form-group"><label>Transmission</label>
+          <select id="editBikeTransmission"><option value="Manual">Manual</option><option value="Automatic">Automatic</option></select>
         </div>
-        <div class="form-group full">
-          <label>Description</label>
-          <textarea id="editBikeDesc" rows="2"></textarea>
+        <div class="form-group"><label>Seats</label><input type="number" id="editBikeSeats" min="1" max="4" /></div>
+        <div class="form-group"><label>Fuel Type</label>
+          <select id="editBikeFuelType"><option value="Petrol">Petrol</option><option value="Electric">Electric</option><option value="CNG">CNG</option></select>
         </div>
+        <div class="form-group"><label>Fuel Included?</label>
+          <select id="editBikeFuelIncluded"><option value="Fuel Excluded">Fuel Excluded</option><option value="Fuel Included">Fuel Included</option></select>
+        </div>
+        <div class="form-group"><label>KM Limit / Day</label><input type="number" id="editBikeKmLimit" min="0" /></div>
+        <div class="form-group"><label>Extra Charge / KM (₹)</label><input type="number" id="editBikeExtraCharge" min="0" /></div>
+        <div class="form-group"><label>Deposit (₹)</label><input type="number" id="editBikeDeposit" min="0" /></div>
+        <div class="form-group"><label>Manufactured Year</label><input type="text" id="editBikeYear" placeholder="e.g. 2020" /></div>
+        <div class="form-group"><label>Pay at Pickup</label>
+          <select id="editBikePayAtPickup"><option value="Yes">Yes</option><option value="No">No</option></select>
+        </div>
+        <div class="form-group"><label>Image URL</label><input type="url" id="editBikeImg" /></div>
+        <div class="form-group full"><label>Available At (Address)</label><input type="text" id="editBikeAvailableAt" placeholder="e.g. Karwan East, Hyderabad" /></div>
+        <div class="form-group full"><label>Description</label><textarea id="editBikeDesc" rows="2"></textarea></div>
       </div>
       <div style="margin-top:20px;display:flex;gap:10px">
         <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Save Changes</button>

@@ -98,18 +98,37 @@ function renderBikes() {
         <img src="${b.img}" alt="${b.name}" loading="lazy" />
         <span class="card-badge ${badgeClass(b.badge)}">${b.badge}</span>
         <span class="card-status status-${b.status}">${b.status.charAt(0).toUpperCase() + b.status.slice(1)}</span>
+        ${b.payAtPickup === 'Yes' ? '<span class="card-pay-pickup"><i class="fas fa-circle-check"></i> Pay at Pickup</span>' : ''}
         ${overlayHTML}
       </div>
       <div class="card-body">
         <div class="card-name">${b.name}</div>
+        ${b.bikeNumber ? `<div class="card-bike-number"><i class="fas fa-hashtag"></i> ${b.bikeNumber}</div>` : ''}
         <div class="card-location"><i class="fas fa-location-dot"></i>${b.location}</div>
+
+        <div class="card-specs">
+          ${b.transmission ? `<span><i class="fas fa-gears"></i> ${b.transmission}</span>` : ''}
+          ${b.seats ? `<span><i class="fas fa-users"></i> ${b.seats} Seater</span>` : ''}
+          ${b.fuelType ? `<span><i class="fas fa-gas-pump"></i> ${b.fuelType}</span>` : ''}
+        </div>
+
+        ${b.availableAt ? `<div class="card-available-at"><span>Available at</span><p>${b.availableAt}</p></div>` : ''}
+
         <div class="card-meta">
-          <div class="card-price">₹${b.price}<small>/day</small></div>
+          <div>
+            <div class="card-price">&#8377;${b.price}<small>/day</small></div>
+            ${b.kmLimit ? `<div class="card-km">${b.kmLimit} Km limit</div>` : ''}
+            ${b.extraChargePerKm ? `<div class="card-km">Extra: &#8377;${b.extraChargePerKm}/Km</div>` : ''}
+            ${b.fuelIncluded ? `<div class="card-km">${b.fuelIncluded}</div>` : ''}
+          </div>
           <div class="card-rating">
             ${starsHTML(b.rating)}
             <span>(${b.reviews})</span>
           </div>
         </div>
+
+        ${b.deposit ? `<div class="card-deposit">Deposit : &#8377;${b.deposit}</div>` : ''}
+
         <div class="card-actions">
           ${unavailable
             ? `<button class="btn-unavailable" disabled>${b.status === 'rented' ? '<i class="fas fa-lock"></i> Currently Rented' : '<i class="fas fa-wrench"></i> Under Maintenance'}</button>`
