@@ -97,21 +97,16 @@
 
     <!-- TABS -->
     <div class="modal-tabs">
-      <button class="modal-tab active" data-tab="book">
-        <i class="fas fa-calendar-check"></i> Book
-      </button>
-      <button class="modal-tab" data-tab="reviews">
-        <i class="fas fa-star"></i> Reviews
-      </button>
+      <button class="modal-tab active" data-tab="book"><i class="fas fa-calendar-check"></i> Book</button>
+      <button class="modal-tab" data-tab="reviews"><i class="fas fa-star"></i> Reviews</button>
     </div>
 
     <!-- BOOK TAB -->
     <div class="tab-content active" id="tab-book">
 
-      <!-- STEP 1 -->
+      <!-- STEP 1: DETAILS -->
       <div class="step" id="step1">
         <div class="modal-bike-header" id="modalBikeHeader"></div>
-
         <div class="form-row">
           <div class="form-group">
             <label>Your Name</label>
@@ -138,90 +133,75 @@
             <input type="time" id="pickupTime" value="10:00" />
           </div>
           <div class="form-group">
-            <label>Payment Preference</label>
+            <label>Payment Method</label>
             <select id="payAtPickup">
-              <option value="upi">UPI / Online</option>
+              <option value="online">Online Payment</option>
               <option value="cash">Cash on Pickup</option>
             </select>
           </div>
         </div>
-
         <div class="booking-summary" id="bookingSummary">
           <div class="summary-row"><span>Duration</span><span id="sumDays">– days</span></div>
           <div class="summary-row"><span>Rate</span><span id="sumRate">&#8377;–/day</span></div>
           <div class="summary-row total"><span>Total Rent</span><span id="sumTotal">&#8377;–</span></div>
         </div>
-
-        <p class="wa-note"><i class="fas fa-circle-info"></i> Online booking is optional. Final confirmation via WhatsApp/call is preferred.</p>
-
         <div class="terms-check">
           <input type="checkbox" id="termsCheck" />
           <label for="termsCheck">I agree to the <a href="terms.html" target="_blank">Terms &amp; Conditions</a> and will bring valid DL + ID at pickup.</label>
         </div>
-
         <div class="step-actions">
-          <a href="#" id="waBookBtn" target="_blank" rel="noopener noreferrer" class="btn-whatsapp" style="flex:1;justify-content:center;">
-            <i class="fab fa-whatsapp"></i> Book via WhatsApp
-          </a>
-          <button class="btn-primary" id="proceedPayBtn" style="flex:1;justify-content:center;">
-            <i class="fas fa-credit-card"></i> Proceed to Pay
+          <button class="btn-primary" id="proceedPayBtn" style="width:100%;justify-content:center;">
+            <i class="fas fa-arrow-right"></i> Continue
           </button>
         </div>
       </div>
 
-      <!-- STEP 2: PAYMENT -->
+      <!-- STEP 2A: ONLINE PAYMENT -->
       <div class="step hidden" id="step2">
-        <h3 class="step-title"><i class="fas fa-lock"></i> Secure Payment</h3>
+        <h3 class="step-title"><i class="fas fa-lock"></i> Secure Online Payment</h3>
         <div class="pay-amount-display" id="payAmountDisplay"></div>
 
-        <div class="pay-tabs">
-          <button class="pay-tab active" data-pay="upi"><i class="fas fa-mobile-screen"></i> UPI</button>
+        <div class="upi-apps-grid">
+          <a href="#" class="upi-app-btn" id="gpayBtn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/200px-Google_Pay_Logo.svg.png" alt="GPay" />
+            <span>Google Pay</span>
+          </a>
+          <a href="#" class="upi-app-btn" id="phonepeBtn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/200px-PhonePe_Logo.svg.png" alt="PhonePe" />
+            <span>PhonePe</span>
+          </a>
+          <a href="#" class="upi-app-btn" id="paytmBtn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/200px-Paytm_Logo_%28standalone%29.svg.png" alt="Paytm" />
+            <span>Paytm</span>
+          </a>
+        </div>
+
+        <div class="upi-divider"><span>or enter UPI ID</span></div>
+        <div class="form-group">
+          <input type="text" id="upiId" placeholder="yourname@upi" />
+        </div>
+
+        <div class="pay-tabs" style="margin-top:12px">
           <button class="pay-tab" data-pay="card"><i class="fas fa-credit-card"></i> Card</button>
           <button class="pay-tab" data-pay="qr"><i class="fas fa-qrcode"></i> QR Code</button>
         </div>
-
-        <!-- UPI -->
-        <div class="pay-content active" id="pay-upi">
-          <div class="form-group">
-            <label>UPI ID</label>
-            <input type="text" id="upiId" placeholder="yourname@upi" />
-          </div>
-          <div class="upi-apps">
-            <div class="upi-app"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/200px-Paytm_Logo_%28standalone%29.svg.png" alt="Paytm" /><span>Paytm</span></div>
-            <div class="upi-app"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/200px-Google_Pay_Logo.svg.png" alt="GPay" /><span>GPay</span></div>
-            <div class="upi-app"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/200px-PhonePe_Logo.svg.png" alt="PhonePe" /><span>PhonePe</span></div>
-          </div>
-        </div>
-
-        <!-- CARD -->
         <div class="pay-content hidden" id="pay-card">
-          <div class="form-group">
+          <div class="form-group" style="margin-top:12px">
             <label>Card Number</label>
             <input type="text" id="cardNum" placeholder="1234 5678 9012 3456" maxlength="19" />
           </div>
           <div class="form-row">
-            <div class="form-group">
-              <label>Expiry</label>
-              <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" />
-            </div>
-            <div class="form-group">
-              <label>CVV</label>
-              <input type="password" id="cardCvv" placeholder="•••" maxlength="3" />
-            </div>
+            <div class="form-group"><label>Expiry</label><input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" /></div>
+            <div class="form-group"><label>CVV</label><input type="password" id="cardCvv" placeholder="•••" maxlength="3" /></div>
           </div>
-          <div class="form-group">
-            <label>Name on Card</label>
-            <input type="text" id="cardName" placeholder="Full name" />
-          </div>
+          <div class="form-group"><label>Name on Card</label><input type="text" id="cardName" placeholder="Full name" /></div>
         </div>
-
-        <!-- QR -->
         <div class="pay-content hidden" id="pay-qr">
           <div class="qr-wrap">
             <div class="qr-placeholder">
               <i class="fas fa-qrcode"></i>
               <p>Scan with any UPI app</p>
-              <small>Paytm · GPay · PhonePe · BHIM</small>
+              <small>GPay · PhonePe · Paytm · BHIM</small>
             </div>
           </div>
         </div>
@@ -230,6 +210,21 @@
           <i class="fas fa-lock"></i> Pay Now
         </button>
         <p class="ssl-note"><i class="fas fa-shield-halved"></i> 256-bit SSL encrypted · 100% secure</p>
+        <button class="btn-back" id="backToStep1"><i class="fas fa-arrow-left"></i> Back</button>
+      </div>
+
+      <!-- STEP 2B: CASH ON PICKUP -->
+      <div class="step hidden" id="step2cash">
+        <h3 class="step-title"><i class="fas fa-hand-holding-dollar"></i> Cash on Pickup</h3>
+        <div class="cash-order-summary" id="cashOrderSummary"></div>
+        <div class="cash-note">
+          <i class="fas fa-circle-info"></i>
+          Pay the full amount in cash when you pick up the bike. Please carry valid ID &amp; DL.
+        </div>
+        <button class="btn-primary" id="confirmCashBtn" style="width:100%;justify-content:center;margin-top:16px;">
+          <i class="fas fa-check-circle"></i> Confirm Order
+        </button>
+        <button class="btn-back" id="backToStep1Cash"><i class="fas fa-arrow-left"></i> Back</button>
       </div>
 
       <!-- STEP 3: SUCCESS -->
@@ -241,13 +236,17 @@
               <path class="check-mark" fill="none" d="M14 27 l8 8 l16-16"/>
             </svg>
           </div>
-          <h2>Payment Successful!</h2>
-          <p>Your bike has been booked. We'll contact you shortly.</p>
+          <h2 id="successTitle">Booking Confirmed!</h2>
+          <p id="successMsg">Your bike has been booked. We'll contact you shortly.</p>
           <div class="booking-id-box">
             <span>Booking ID</span>
             <strong id="bookingIdDisplay"></strong>
           </div>
-          <button class="btn-primary" id="doneBtn" style="margin-top:20px;width:100%;justify-content:center;">
+          <a id="waSuccessBtn" href="#" target="_blank" rel="noopener noreferrer"
+             class="btn-whatsapp" style="margin-top:14px;width:100%;justify-content:center;display:flex;">
+            <i class="fab fa-whatsapp"></i> Open WhatsApp
+          </a>
+          <button class="btn-primary" id="doneBtn" style="margin-top:10px;width:100%;justify-content:center;">
             <i class="fas fa-check"></i> Done
           </button>
         </div>
@@ -258,27 +257,18 @@
     <!-- REVIEWS TAB -->
     <div class="tab-content hidden" id="tab-reviews">
       <div class="reviews-list" id="reviewsList"></div>
-
       <div class="review-form">
         <h4>Write a Review</h4>
-        <div class="form-group">
-          <label>Your Name</label>
-          <input type="text" id="reviewName" placeholder="Enter your name" />
-        </div>
+        <div class="form-group"><label>Your Name</label><input type="text" id="reviewName" placeholder="Enter your name" /></div>
         <div class="star-picker" id="starPicker">
           <span>Rating:</span>
           <div class="stars-input">
-            <i class="fas fa-star" data-val="1"></i>
-            <i class="fas fa-star" data-val="2"></i>
-            <i class="fas fa-star" data-val="3"></i>
-            <i class="fas fa-star" data-val="4"></i>
+            <i class="fas fa-star" data-val="1"></i><i class="fas fa-star" data-val="2"></i>
+            <i class="fas fa-star" data-val="3"></i><i class="fas fa-star" data-val="4"></i>
             <i class="fas fa-star" data-val="5"></i>
           </div>
         </div>
-        <div class="form-group">
-          <label>Review</label>
-          <textarea id="reviewText" rows="3" placeholder="Share your experience…"></textarea>
-        </div>
+        <div class="form-group"><label>Review</label><textarea id="reviewText" rows="3" placeholder="Share your experience…"></textarea></div>
         <button class="btn-primary" id="submitReviewBtn" style="width:100%;justify-content:center;">
           <i class="fas fa-paper-plane"></i> Submit Review
         </button>

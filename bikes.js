@@ -236,8 +236,12 @@ function switchTab(name) {
 }
 
 // ── STEPS ──
-function showStep(n) {
-  [1, 2, 3].forEach(i => document.getElementById(`step${i}`).classList.toggle('hidden', i !== n));
+function showStep(n, type) {
+  ['step1','step2','step2cash','step3'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  if (n === 1) document.getElementById('step1').classList.remove('hidden');
+  else if (n === 2 && type === 'cash') document.getElementById('step2cash').classList.remove('hidden');
+  else if (n === 2) document.getElementById('step2').classList.remove('hidden');
+  else if (n === 3) document.getElementById('step3').classList.remove('hidden');
 }
 
 // ── DATE → SUMMARY ──
@@ -259,21 +263,16 @@ const today = new Date().toISOString().split('T')[0];
 document.getElementById('startDate').min = today;
 document.getElementById('endDate').min   = today;
 
-// ── WHATSAPP BOOK ──
-document.getElementById('waBookBtn').addEventListener('click', e => {
-  e.preventDefault();
-  if (!currentBike) return;
-  const name  = document.getElementById('custName').value.trim() || 'Customer';
-  const from  = document.getElementById('startDate').value || 'TBD';
-  const to    = document.getElementById('endDate').value   || 'TBD';
-  const time  = document.getElementById('pickupTime')?.value || '10:00';
-  const days  = (from !== 'TBD' && to !== 'TBD') ? Math.max(1, Math.round((new Date(to) - new Date(from)) / 86400000)) : 1;
-  const total = days * currentBike.price;
-  const msg   = encodeURIComponent(`Hi, I want to rent *${currentBike.name}* from ${from} to ${to} (${days} day${days>1?'s':''}). Pickup time: ${time}. Total: \u20b9${total}. My name is ${name}. Please confirm. - Sri Ganesh Bike Rentals`);
-  window.open(`https://wa.me/919100438272?text=${msg}`, '_blank');
-});
+// ── UPI APP DEEP LINKS ──
+function setUpiLinks(amount) {
+  const upiId = '9100438272@upi';
+  const note  = encodeURIComponent('Sri Ganesh Bike Rental');
+  document.getElementById('gpayBtn').href    = `upi://pay?pa=${upiId}&pn=SriGaneshBikeRentals&am=${amount}&cu=INR&tn=${note}`;
+  document.getElementById('phonepeBtn').href = `upi://pay?pa=${upiId}&pn=SriGaneshBikeRentals&am=${amount}&cu=INR&tn=${note}`;
+  document.getElementById('paytmBtn').href   = `upi://pay?pa=${upiId}&pn=SriGaneshBikeRentals&am=${amount}&cu=INR&tn=${note}`;
+}
 
-// ── PROCEED TO PAY ──
+// ── PROCEED BUTTON ──
 document.getElementById('proceedPayBtn').addEventListener('click', () => {
   const name  = document.getElementById('custName').value.trim();
   const phone = document.getElementById('custPhone').value.trim();
@@ -283,8 +282,91 @@ document.getElementById('proceedPayBtn').addEventListener('click', () => {
   if (!name || !phone || !from || !to) { alert('Please fill in all fields before proceeding.'); return; }
   if (new Date(to) < new Date(from))   { alert('End date must be after start date.'); return; }
   if (!terms) { alert('Please agree to the Terms & Conditions before proceeding.'); return; }
-  updatePayAmount();
-  showStep(2);
+
+  const payMethod = document.getElementById('payAtPickup').value;
+
+  if (payMethod === 'cash') {
+    // Build cash order summary
+    const s = document.getElementById('startDate').value;
+    const e = document.getElementById('endDate').value;
+    const days  = s && e ? Math.max(1, Math.round((new Date(e) - new Date(s)) / 86400000)) : 1;
+    const total = days * (currentBike ? currentBike.price : 0);
+    const time  = document.getElementById('pickupTime').value || '10:00';
+    document.getElementById('cashOrderSummary').innerHTML = `
+      <div class="cash-summary-card">
+        <div class="cash-bike-row">
+          <img src="${currentBike.img}" alt="${currentBike.name}" />
+          <div>
+            <div class="cash-bike-name">${currentBike.name}</div>
+            <div class="cash-bike-cat">${currentBike.category} ${currentBike.engine ? '&bull; ' + currentBike.engine : ''}</div>
+          </div>
+        </div>
+        <div class="cash-rows">
+          <div class="cash-row"><span>Customer</span><span>${name}</span></div>
+          <div class="cash-row"><span>Phone</span><span>${phone}</span></div>
+          <div class="cash-row"><span>From</span><span>${s}</span></div>
+          <div class="cash-row"><span>To</span><span>${e}</span></div>
+          <div class="cash-row"><span>Pickup Time</span><span>${time}</span></div>
+          <div class="cash-row"><span>Duration</span><span>${days} day${days>1?'s':''}</span></div>
+          ${currentBike.kmLimit ? `<div class="cash-row"><span>KM Limit</span><span>${currentBike.kmLimit} km/day</span></div>` : ''}
+          ${currentBike.fuelIncluded ? `<div class="cash-row"><span>Fuel</span><span>${currentBike.fuelIncluded}</span></div>` : ''}
+          ${currentBike.deposit ? `<div class="cash-row"><span>Deposit</span><span>&#8377;${currentBike.deposit}</span></div>` : ''}
+          <div class="cash-row total"><span>Total Rent</span><span>&#8377;${total}</span></div>
+        </div>
+        <div class="cash-pay-label"><i class="fas fa-hand-holding-dollar"></i> Pay &#8377;${total} in cash at pickup</div>
+      </div>`;
+    showStep(2, 'cash');
+  } else {
+    updatePayAmount();
+    showStep(2);
+  }
+});
+
+// Back buttons
+document.getElementById('backToStep1').addEventListener('click', () => showStep(1));
+document.getElementById('backToStep1Cash').addEventListener('click', () => showStep(1));
+
+// ── CASH CONFIRM ──
+document.getElementById('confirmCashBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('confirmCashBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Confirming…';
+  try {
+    await saveBooking('cash');
+    const name  = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const from  = document.getElementById('startDate').value;
+    const to    = document.getElementById('endDate').value;
+    const time  = document.getElementById('pickupTime').value || '10:00';
+    const days  = from && to ? Math.max(1, Math.round((new Date(to) - new Date(from)) / 86400000)) : 1;
+    const total = days * (currentBike ? currentBike.price : 0);
+    // Set success screen
+    document.getElementById('successTitle').textContent = 'Order Confirmed!';
+    document.getElementById('successMsg').textContent = 'Your booking is confirmed. Pay cash at pickup.';
+    // Build WhatsApp message
+    const msg = encodeURIComponent(
+      `Hi Sri Ganesh Bike Rentals!\n\n` +
+      `*New Booking (Cash on Pickup)*\n` +
+      `Bike: ${currentBike.name}\n` +
+      `Customer: ${name}\n` +
+      `Phone: ${phone}\n` +
+      `From: ${from}  To: ${to}\n` +
+      `Pickup Time: ${time}\n` +
+      `Duration: ${days} day${days>1?'s':''}\n` +
+      `Total: \u20b9${total}\n` +
+      `Payment: Cash on Pickup\n` +
+      `Booking ID: ${document.getElementById('bookingIdDisplay').textContent}`
+    );
+    document.getElementById('waSuccessBtn').href = `https://wa.me/919100438272?text=${msg}`;
+    showStep(3);
+    // Auto-open WhatsApp after 1.5s
+    setTimeout(() => window.open(`https://wa.me/919100438272?text=${msg}`, '_blank'), 1500);
+  } catch (err) {
+    alert('Booking failed. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-check-circle"></i> Confirm Order';
+  }
 });
 
 function updatePayAmount() {
@@ -296,6 +378,7 @@ function updatePayAmount() {
     total = days * currentBike.price;
   }
   document.getElementById('payAmountDisplay').textContent = `₹${total}`;
+  setUpiLinks(total);
   return total;
 }
 
@@ -326,9 +409,31 @@ document.getElementById('payNowBtn').addEventListener('click', async () => {
   const btn = document.getElementById('payNowBtn');
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing…';
-
   try {
-    await saveBooking();
+    await saveBooking('online');
+    document.getElementById('successTitle').textContent = 'Payment Successful!';
+    document.getElementById('successMsg').textContent = "Your bike has been booked. We'll contact you shortly.";
+    const name  = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const from  = document.getElementById('startDate').value;
+    const to    = document.getElementById('endDate').value;
+    const time  = document.getElementById('pickupTime').value || '10:00';
+    const days  = from && to ? Math.max(1, Math.round((new Date(to) - new Date(from)) / 86400000)) : 1;
+    const total = days * (currentBike ? currentBike.price : 0);
+    const msg = encodeURIComponent(
+      `Hi Sri Ganesh Bike Rentals!\n\n` +
+      `*New Booking (Online Payment)*\n` +
+      `Bike: ${currentBike.name}\n` +
+      `Customer: ${name}\n` +
+      `Phone: ${phone}\n` +
+      `From: ${from}  To: ${to}\n` +
+      `Pickup Time: ${time}\n` +
+      `Duration: ${days} day${days>1?'s':''}\n` +
+      `Total: \u20b9${total}\n` +
+      `Payment: Online\n` +
+      `Booking ID: ${document.getElementById('bookingIdDisplay').textContent}`
+    );
+    document.getElementById('waSuccessBtn').href = `https://wa.me/919100438272?text=${msg}`;
     showStep(3);
   } catch (err) {
     alert('Booking failed. Please try again.');
@@ -339,15 +444,13 @@ document.getElementById('payNowBtn').addEventListener('click', async () => {
   }
 });
 
-async function saveBooking() {
+async function saveBooking(payMethodOverride) {
   const s     = document.getElementById('startDate').value;
   const e     = document.getElementById('endDate').value;
   const days  = s && e ? Math.max(1, Math.round((new Date(e) - new Date(s)) / 86400000)) : 1;
   const total = days * (currentBike ? currentBike.price : 0);
   const pickupTime = document.getElementById('pickupTime')?.value || '10:00';
-
-  const activePayTab = document.querySelector('.pay-tab.active');
-  const payMethod    = activePayTab ? activePayTab.dataset.pay : 'upi';
+  const payMethod  = payMethodOverride || document.getElementById('payAtPickup').value;
 
   const res = await fetch(`${API}/bookings`, {
     method:  'POST',
@@ -357,14 +460,11 @@ async function saveBooking() {
       phone:      document.getElementById('custPhone').value.trim(),
       bike:       currentBike.name,
       bikeId:     currentBike._id,
-      from:       s,
-      to:         e,
-      pickupTime,
+      from:       s, to: e, pickupTime,
       amount:     total,
       payMethod
     })
   });
-
   if (!res.ok) throw new Error('Booking API error');
   const booking = await res.json();
   document.getElementById('bookingIdDisplay').textContent = booking.bookingId;
