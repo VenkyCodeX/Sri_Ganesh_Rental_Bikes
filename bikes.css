@@ -337,6 +337,29 @@
 
 .step-actions { display: flex; gap: 10px; }
 
+/* ── MODAL BUTTONS ── */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: linear-gradient(135deg, #e53935, #ff6b6b);
+  color: #ffffff; padding: 13px 28px;
+  border-radius: 10px; font-size: 15px; font-weight: 700;
+  border: none; cursor: pointer;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 4px 16px rgba(229,57,53,0.3);
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+.pay-now-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: linear-gradient(135deg, #e53935, #ff6b6b);
+  color: #ffffff; padding: 14px;
+  border-radius: 10px; font-size: 15px; font-weight: 700;
+  border: none; cursor: pointer; width: 100%;
+  transition: opacity 0.25s ease;
+  box-shadow: 0 4px 16px rgba(229,57,53,0.3);
+}
+.pay-now-btn:hover { opacity: 0.88; }
+
 /* ── PAYMENT ── */
 .pay-amount-display {
   text-align: center; padding: 14px;
