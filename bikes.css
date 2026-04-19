@@ -193,11 +193,12 @@
 }
 .btn-book-card:hover { background: linear-gradient(135deg, var(--orange), var(--orange-light)); color: #ffffff; border-color: var(--orange); }
 .btn-pay-card {
-  flex: 1; padding: 10px; border-radius: 8px;
-  font-size: 13px; font-weight: 700;
+  width: 100%; padding: 11px; border-radius: 8px;
+  font-size: 14px; font-weight: 700;
   background: linear-gradient(135deg, var(--orange), var(--orange-light));
   color: #ffffff;
   transition: opacity 0.25s ease;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
 }
 .btn-pay-card:hover { opacity: 0.88; }
 

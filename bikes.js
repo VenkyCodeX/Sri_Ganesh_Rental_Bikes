@@ -132,8 +132,7 @@ function renderBikes() {
         <div class="card-actions">
           ${unavailable
             ? `<button class="btn-unavailable" disabled>${b.status === 'rented' ? '<i class="fas fa-lock"></i> Currently Rented' : '<i class="fas fa-wrench"></i> Under Maintenance'}</button>`
-            : `<button class="btn-book-card" onclick="openModal('${b._id}','book')">Book Now</button>
-               <button class="btn-pay-card" onclick="openModal('${b._id}','pay')">Pay Now</button>`
+            : `<button class="btn-pay-card" onclick="openModal('${b._id}','book')"><i class="fas fa-motorcycle"></i> Rent Now</button>`
           }
         </div>
       </div>
