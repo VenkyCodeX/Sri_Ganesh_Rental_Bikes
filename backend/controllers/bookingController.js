@@ -7,7 +7,10 @@ const createBooking = async (req, res) => {
     if (!customer || !phone || !bike || !from || !to || !amount)
       return res.status(400).json({ message: 'All booking fields are required' });
 
-    const booking = await Booking.create({ customer, phone, bike, bikeId, from, to, amount, payMethod, pickupTime });
+    const booking = await Booking.create({
+      customer, phone, bike, bikeId, from, to, amount, payMethod, pickupTime,
+      payment_status: payMethod === 'online' ? 'unpaid' : 'unpaid' // For cash, unpaid; online handled separately
+    });
     res.status(201).json(booking);
   } catch (err) {
     res.status(500).json({ message: err.message });

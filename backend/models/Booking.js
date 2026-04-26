@@ -11,7 +11,11 @@ const BookingSchema = new mongoose.Schema({
   amount:    { type: Number, required: true },
   status:    { type: String, enum: ['confirmed', 'pending', 'cancelled'], default: 'confirmed' },
   payMethod: { type: String, default: 'upi' },
-  pickupTime: { type: String, default: '10:00' }
+  pickupTime: { type: String, default: '10:00' },
+  razorpay_order_id: { type: String },
+  razorpay_payment_id: { type: String },
+  razorpay_signature: { type: String },
+  payment_status: { type: String, enum: ['paid', 'unpaid'], default: 'unpaid' }
 }, { timestamps: true });
 
 BookingSchema.pre('save', function (next) {

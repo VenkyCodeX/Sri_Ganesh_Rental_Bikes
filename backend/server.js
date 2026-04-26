@@ -15,7 +15,8 @@ app.use(cors({
     'http://localhost:3000',
     'https://venkycodex.github.io',
     'https://sriganeshbikerental.in',
-    'https://www.sriganeshbikerental.in'
+    'https://www.sriganeshbikerental.in',
+    'https://sriganeshrentalbikes-production.up.railway.app'
   ],
   credentials: true
 }));
@@ -30,6 +31,7 @@ app.use('/api/bikes',     require('./routes/bikes'));
 app.use('/api/bookings',  require('./routes/bookings'));
 app.use('/api/reviews',   require('./routes/reviews'));
 app.use('/api/upload',    require('./routes/upload'));
+app.use('/api/payments',  require('./routes/payment'));
 app.use('/api/cleardata', require('./routes/clearData'));
 
 // Health check
