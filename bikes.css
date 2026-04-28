@@ -34,9 +34,8 @@
 
 /* ── FILTER BAR ── */
 .filter-bar {
-  position: sticky; top: 64px; z-index: 100;
+  position: static;
   background: rgba(255,255,255,0.97);
-  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   padding: 14px 5%;
 }
