@@ -42,7 +42,10 @@ app.get('*', (req, res) => {
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ message: 'API route not found' });
   }
-  res.sendFile(path.join(__dirname, '..', '404.html'));
+  const page404 = path.join(__dirname, '..', '404.html');
+  res.sendFile(page404, err => {
+    if (err) res.status(404).send('Page not found');
+  });
 });
 
 // ── GLOBAL ERROR HANDLER ──
