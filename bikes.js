@@ -1,6 +1,6 @@
 'use strict';
 
-const API = window.location.hostname === 'localhost' ? '/api' : 'https://sriganeshrentalbikes-production.up.railway.app/api';
+const API = '/api';
 const RAZORPAY_KEY_ID = 'rzp_test_ShcniOKdIbgJOT';
 
 // ── HAMBURGER ──
