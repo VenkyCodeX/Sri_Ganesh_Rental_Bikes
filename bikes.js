@@ -1,7 +1,6 @@
 'use strict';
 
-const API = '/api';
-const RAZORPAY_KEY_ID = 'rzp_test_ShcniOKdIbgJOT';
+const API = window.location.hostname === 'localhost' ? '/api' : 'https://sriganeshrentalbikes-production.up.railway.app/api';
 
 // ── HAMBURGER ──
 const hamburger = document.getElementById('hamburger');
@@ -405,7 +404,7 @@ document.getElementById('cardExpiry').addEventListener('input', e => {
   e.target.value = v;
 });
 
-// ── PAY NOW → INITIATE RAZORPAY PAYMENT ──
+// ── PAY NOW → CASHFREE PAYMENT ──
 document.getElementById('payNowBtn').addEventListener('click', async () => {
   const btn = document.getElementById('payNowBtn');
   btn.disabled = true;
@@ -426,94 +425,67 @@ async function handleOnlinePayment() {
   const e     = document.getElementById('endDate').value;
   const days  = s && e ? Math.max(1, Math.round((new Date(e) - new Date(s)) / 86400000)) : 1;
   const total = days * (currentBike ? currentBike.price : 0);
-  const amountInPaise = total * 100; // Convert to paise
+  const name  = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const time  = document.getElementById('pickupTime')?.value || '10:00';
 
-  // Create Razorpay order
+  // Create Cashfree order
   const orderRes = await fetch(`${API}/payments/create-order`, {
-    method: 'POST',
+    method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ amount: amountInPaise, currency: 'INR' })
+    body: JSON.stringify({
+      amount:     total,
+      customer:   name,
+      phone,
+      bike:       currentBike.name,
+      bikeId:     currentBike._id,
+      from:       s,
+      to:         e,
+      pickupTime: time
+    })
   });
   if (!orderRes.ok) throw new Error('Failed to create payment order');
   const orderData = await orderRes.json();
 
-  // Prepare booking data
   const bookingData = {
-    customer:   document.getElementById('custName').value.trim(),
-    phone:      document.getElementById('custPhone').value.trim(),
-    bike:       currentBike.name,
-    bikeId:     currentBike._id,
-    from:       s, to: e,
-    pickupTime: document.getElementById('pickupTime')?.value || '10:00',
-    amount:     total,
-    payMethod:  'online'
+    customer: name, phone,
+    bike:     currentBike.name,
+    bikeId:   currentBike._id,
+    from: s, to: e, pickupTime: time,
+    amount:   total, payMethod: 'cashfree'
   };
 
-  // Razorpay options
-  const options = {
-    key: RAZORPAY_KEY_ID,
-    amount: orderData.amount,
-    currency: orderData.currency,
-    order_id: orderData.order_id,
-    name: 'Sri Ganesh Bike Rentals',
-    description: `Booking for ${currentBike.name}`,
-    handler: async function (response) {
-      // Payment successful
-      try {
-        const verifyRes = await fetch(`${API}/payments/verify-payment`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-            bookingData
-          })
-        });
-        if (!verifyRes.ok) throw new Error('Payment verification failed');
-        const result = await verifyRes.json();
+  // Load Cashfree SDK and open checkout
+  const cashfree = await load({ mode: 'sandbox' });
+  const checkoutOptions = {
+    paymentSessionId: orderData.payment_session_id,
+    returnUrl: `${window.location.origin}/bikes.html?order_id=${orderData.order_id}`,
+  };
 
-        // Show success
-        document.getElementById('successTitle').textContent = 'Payment Successful!';
-        document.getElementById('successMsg').textContent = "Your bike has been booked. We'll contact you shortly.";
-        document.getElementById('bookingIdDisplay').textContent = result.booking.bookingId;
-
-        const name  = bookingData.customer;
-        const phone = bookingData.phone;
-        const from  = bookingData.from;
-        const to    = bookingData.to;
-        const time  = bookingData.pickupTime;
-        const msg = encodeURIComponent(
-          `Hi Sri Ganesh Bike Rentals!\n\n` +
-          `*New Booking (Online Payment)*\n` +
-          `Bike: ${currentBike.name}\n` +
-          `Customer: ${name}\n` +
-          `Phone: ${phone}\n` +
-          `From: ${from}  To: ${to}\n` +
-          `Pickup Time: ${time}\n` +
-          `Duration: ${days} day${days>1?'s':''}\n` +
-          `Total: \u20b9${total}\n` +
-          `Payment: Online\n` +
-          `Booking ID: ${result.booking.bookingId}`
-        );
-        document.getElementById('waSuccessBtn').href = `https://wa.me/919100438272?text=${msg}`;
-        showStep(3);
-      } catch (err) {
-        alert('Payment verification failed. Please contact support.');
-        console.error(err);
-      }
-    },
-    prefill: {
-      name: bookingData.customer,
-      contact: bookingData.phone
-    },
-    theme: {
-      color: '#ff9500'
+  cashfree.checkout(checkoutOptions).then(async result => {
+    if (result.error) {
+      alert('Payment failed: ' + result.error.message);
+      return;
     }
-  };
+    // Verify payment
+    const verifyRes = await fetch(`${API}/payments/verify-payment`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order_id: orderData.order_id, bookingData })
+    });
+    if (!verifyRes.ok) throw new Error('Verification failed');
+    const result2 = await verifyRes.json();
 
-  const rzp = new Razorpay(options);
-  rzp.open();
+    document.getElementById('successTitle').textContent = 'Payment Successful!';
+    document.getElementById('successMsg').textContent = "Your bike has been booked. We'll contact you shortly.";
+    document.getElementById('bookingIdDisplay').textContent = result2.booking?.bookingId || orderData.order_id;
+
+    const msg = encodeURIComponent(
+      `Hi Sri Ganesh Bike Rentals!\n\n*New Booking (Online Payment)*\nBike: ${currentBike.name}\nCustomer: ${name}\nPhone: ${phone}\nFrom: ${s}  To: ${e}\nPickup: ${time}\nDuration: ${days} day${days>1?'s':''}\nTotal: \u20b9${total}\nPayment: Cashfree Online\nBooking ID: ${result2.booking?.bookingId || orderData.order_id}`
+    );
+    document.getElementById('waSuccessBtn').href = `https://wa.me/919100438272?text=${msg}`;
+    showStep(3);
+  });
 }
 
 async function saveBooking(payMethodOverride) {
