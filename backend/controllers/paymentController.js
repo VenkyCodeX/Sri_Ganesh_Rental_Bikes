@@ -1,22 +1,22 @@
-const { Cashfree } = require('cashfree-pg');
-const Booking = require('../models/Booking');
+const cashfree = require('cashfree-pg');
+const Booking  = require('../models/Booking');
 
-Cashfree.XClientId     = process.env.CASHFREE_APP_ID;
-Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment  = process.env.CASHFREE_ENV === 'production'
-  ? Cashfree.Environment.PRODUCTION
-  : Cashfree.Environment.SANDBOX;
+const isProd = process.env.CASHFREE_ENV === 'production';
 
 // POST /api/payments/create-order
 const createOrder = async (req, res) => {
   try {
-    const { amount, customer, phone, bikeId, bike, from, to, pickupTime } = req.body;
+    const { amount, customer, phone, bike, from, to, pickupTime } = req.body;
     if (!amount || !customer || !phone)
       return res.status(400).json({ message: 'amount, customer and phone are required' });
 
     const orderId = 'SG' + Date.now();
 
-    const orderData = {
+    const response = await cashfree.PGCreateOrder({
+      'x-client-id':     process.env.CASHFREE_APP_ID,
+      'x-client-secret': process.env.CASHFREE_SECRET_KEY,
+      'x-api-version':   '2023-08-01',
+    }, {
       order_id:       orderId,
       order_amount:   amount,
       order_currency: 'INR',
@@ -26,18 +26,15 @@ const createOrder = async (req, res) => {
         customer_phone: phone,
       },
       order_meta: {
-        return_url: `${process.env.FRONTEND_URL || 'https://sriganeshbikerental.in'}/bikes.html?order_id={order_id}&order_token={order_token}`,
+        return_url: `${process.env.FRONTEND_URL || 'https://sriganeshbikerental.in'}/bikes.html?order_id=${orderId}`,
       },
       order_note: `Bike rental: ${bike} from ${from} to ${to}`,
-    };
-
-    const response = await Cashfree.PGCreateOrder('2023-08-01', orderData);
-    const order    = response.data;
+    });
 
     res.json({
-      order_id:      order.order_id,
-      payment_session_id: order.payment_session_id,
-      amount:        order.order_amount,
+      order_id:           response.data.order_id,
+      payment_session_id: response.data.payment_session_id,
+      amount:             response.data.order_amount,
     });
   } catch (err) {
     console.error('Cashfree order error:', err?.response?.data || err.message);
@@ -52,18 +49,21 @@ const verifyPayment = async (req, res) => {
     if (!order_id)
       return res.status(400).json({ message: 'order_id is required' });
 
-    const response = await Cashfree.PGFetchOrder('2023-08-01', order_id);
-    const order    = response.data;
+    const response = await cashfree.PGFetchOrder({
+      'x-client-id':     process.env.CASHFREE_APP_ID,
+      'x-client-secret': process.env.CASHFREE_SECRET_KEY,
+      'x-api-version':   '2023-08-01',
+    }, order_id);
 
+    const order = response.data;
     if (order.order_status !== 'PAID')
       return res.status(400).json({ message: 'Payment not completed', status: order.order_status });
 
-    // Save booking
     const booking = await Booking.create({
       ...bookingData,
-      bookingId:  order_id,
-      payMethod:  'cashfree',
-      status:     'confirmed',
+      bookingId: order_id,
+      payMethod: 'cashfree',
+      status:    'confirmed',
     });
 
     res.json({ success: true, booking });
