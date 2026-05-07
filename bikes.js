@@ -266,10 +266,20 @@ document.getElementById('endDate').min   = today;
 // ── UPI APP DEEP LINKS ──
 function setUpiLinks(amount) {
   const upiId = '9100438272@upi';
-  const note  = encodeURIComponent('Sri Ganesh Bike Rental');
-  document.getElementById('gpayBtn').href    = `upi://pay?pa=${upiId}&pn=SriGaneshBikeRentals&am=${amount}&cu=INR&tn=${note}`;
-  document.getElementById('phonepeBtn').href = `upi://pay?pa=${upiId}&pn=SriGaneshBikeRentals&am=${amount}&cu=INR&tn=${note}`;
-  document.getElementById('paytmBtn').href   = `upi://pay?pa=${upiId}&pn=SriGaneshBikeRentals&am=${amount}&cu=INR&tn=${note}`;
+  const name  = encodeURIComponent('Sri Ganesh Bike Rentals');
+  const note  = encodeURIComponent('Bike Rental Payment');
+
+  // GPay deep link
+  document.getElementById('gpayBtn').href =
+    `tez://upi/pay?pa=${upiId}&pn=${name}&am=${amount}&cu=INR&tn=${note}`;
+
+  // PhonePe deep link
+  document.getElementById('phonepeBtn').href =
+    `phonepe://pay?pa=${upiId}&pn=${name}&am=${amount}&cu=INR&tn=${note}`;
+
+  // Paytm deep link
+  document.getElementById('paytmBtn').href =
+    `paytmmp://pay?pa=${upiId}&pn=${name}&am=${amount}&cu=INR&tn=${note}`;
 }
 
 // ── PROCEED BUTTON ──
