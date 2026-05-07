@@ -34,6 +34,12 @@ app.use('/api/upload',    require('./routes/upload'));
 app.use('/api/payments',  require('./routes/payment'));
 app.use('/api/cleardata', require('./routes/clearData'));
 
+// Clean URL routes
+app.get('/bikes',      (req, res) => res.sendFile(path.join(__dirname, '..', 'bikes.html')));
+app.get('/admin',      (req, res) => res.sendFile(path.join(__dirname, '..', 'admin.html')));
+app.get('/terms',      (req, res) => res.sendFile(path.join(__dirname, '..', 'terms.html')));
+app.get('/mybookings', (req, res) => res.sendFile(path.join(__dirname, '..', 'mybookings.html')));
+
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok', service: 'Sri Ganesh Bike Rentals API' }));
 
