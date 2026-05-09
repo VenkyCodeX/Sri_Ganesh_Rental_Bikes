@@ -4,6 +4,11 @@ const cors     = require('cors');
 const path     = require('path');
 const connectDB = require('./config/db');
 
+console.log('🔧 Starting server...');
+console.log('📍 Environment:', process.env.NODE_ENV || 'development');
+console.log('🔑 JWT_SECRET exists:', !!process.env.JWT_SECRET);
+console.log('🗄️  MONGO_URI exists:', !!process.env.MONGO_URI);
+
 connectDB();
 
 const app = express();
