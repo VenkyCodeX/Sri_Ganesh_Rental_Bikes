@@ -1,6 +1,6 @@
 'use strict';
 
-const API = '/api';
+const API = window.location.hostname === 'localhost' ? '/api' : 'https://sriganeshrentalbikes-production.up.railway.app/api';
 
 // ── HELPERS ──
 const $       = id => document.getElementById(id);
