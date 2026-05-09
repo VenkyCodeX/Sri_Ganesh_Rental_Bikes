@@ -33,11 +33,8 @@ app.use(cors({
 app.use(express.json());
 
 console.log('📁 Setting up static files...');
-// Note: Static files should be served from a separate frontend host
-// This backend is API-only when deployed
-if (process.env.NODE_ENV !== 'production') {
-  app.use(express.static(path.join(__dirname, '..')));
-}
+// Serve frontend static files from parent directory
+app.use(express.static(path.join(__dirname, '..')));
 
 console.log('🛣️  Loading API routes...');
 // ── API ROUTES ──
