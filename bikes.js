@@ -1,6 +1,6 @@
 'use strict';
 
-const API = window.location.hostname === 'localhost' ? '/api' : 'https://sriganeshrentalbikes-production.up.railway.app/api';
+const API = window.location.hostname === 'localhost' ? '/api' : 'https://sriganeshbikerental.in/api';
 
 // ── HAMBURGER ──
 const hamburger = document.getElementById('hamburger');
