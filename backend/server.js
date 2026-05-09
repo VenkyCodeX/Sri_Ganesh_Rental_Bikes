@@ -9,11 +9,14 @@ console.log('📍 Environment:', process.env.NODE_ENV || 'development');
 console.log('🔑 JWT_SECRET exists:', !!process.env.JWT_SECRET);
 console.log('🗄️  MONGO_URI exists:', !!process.env.MONGO_URI);
 
-connectDB();
+(async () => {
+  try {
+    await connectDB();
+    console.log('🛠️  Database connected, initializing Express app...');
 
-const app = express();
+    const app = express();
 
-console.log('⚙️  Setting up middleware...');
+    console.log('⚙️  Setting up middleware...');
 
 // ── MIDDLEWARE ──
 app.use(cors({
@@ -102,3 +105,9 @@ server.on('error', (err) => {
   console.error('❌ Server error:', err);
   process.exit(1);
 });
+
+  } catch (err) {
+    console.error('❌ Fatal error during startup:', err);
+    process.exit(1);
+  }
+})();
