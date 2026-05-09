@@ -13,6 +13,8 @@ connectDB();
 
 const app = express();
 
+console.log('⚙️  Setting up middleware...');
+
 // ── MIDDLEWARE ──
 app.use(cors({
   origin: [
@@ -27,17 +29,31 @@ app.use(cors({
 }));
 app.use(express.json());
 
+console.log('📁 Setting up static files...');
 // Serve frontend static files from parent directory
 app.use(express.static(path.join(__dirname, '..')));
 
+console.log('🛣️  Loading API routes...');
 // ── API ROUTES ──
-app.use('/api/auth',      require('./routes/auth'));
-app.use('/api/bikes',     require('./routes/bikes'));
-app.use('/api/bookings',  require('./routes/bookings'));
-app.use('/api/reviews',   require('./routes/reviews'));
-app.use('/api/upload',    require('./routes/upload'));
-app.use('/api/payments',  require('./routes/payment'));
-app.use('/api/cleardata', require('./routes/clearData'));
+try {
+  app.use('/api/auth',      require('./routes/auth'));
+  console.log('✓ Auth routes loaded');
+  app.use('/api/bikes',     require('./routes/bikes'));
+  console.log('✓ Bikes routes loaded');
+  app.use('/api/bookings',  require('./routes/bookings'));
+  console.log('✓ Bookings routes loaded');
+  app.use('/api/reviews',   require('./routes/reviews'));
+  console.log('✓ Reviews routes loaded');
+  app.use('/api/upload',    require('./routes/upload'));
+  console.log('✓ Upload routes loaded');
+  app.use('/api/payments',  require('./routes/payment'));
+  console.log('✓ Payments routes loaded');
+  app.use('/api/cleardata', require('./routes/clearData'));
+  console.log('✓ ClearData routes loaded');
+} catch (err) {
+  console.error('❌ Error loading routes:', err);
+  process.exit(1);
+}
 
 // Clean URL routes
 app.get('/bikes',      (req, res) => res.sendFile(path.join(__dirname, '..', 'bikes.html')));
