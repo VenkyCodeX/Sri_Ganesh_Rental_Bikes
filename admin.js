@@ -55,7 +55,10 @@ $('adminPassBtn').addEventListener('click', async () => {
     });
     const data = await res.json();
 
+    console.log('Login response:', { ok: res.ok, status: res.status, data });
+
     if (!res.ok || data.user?.role !== 'admin') {
+      $('adminPassError').textContent = data.message || 'Incorrect credentials. Try again.';
       $('adminPassError').style.display = 'block';
       $('adminPassInput').value = '';
       $('adminPassInput').focus();
@@ -64,7 +67,8 @@ $('adminPassBtn').addEventListener('click', async () => {
       loginOverlay.classList.add('hidden');
       renderDashboard();
     }
-  } catch {
+  } catch (err) {
+    console.error('Login error:', err);
     $('adminPassError').textContent = 'Server error. Is the backend running?';
     $('adminPassError').style.display = 'block';
   } finally {
