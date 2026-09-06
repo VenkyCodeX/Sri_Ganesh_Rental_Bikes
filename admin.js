@@ -1,7 +1,6 @@
 'use strict';
 
-const API = window.location.hostname === 'localhost' ? '/api' : 'https://sriganeshbikerental.in/api';
-
+const API = '/api';
 // ── HELPERS ──
 const $       = id => document.getElementById(id);
 const getToken = () => sessionStorage.getItem('sg_admin_token');
